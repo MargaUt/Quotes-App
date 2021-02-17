@@ -1,0 +1,20 @@
+[
+  {
+    "paveiksliukas": "apple",
+    "pavadinimas": "Obuolys",
+    "aprasymas": "Obuolys – būdingas obelų vaisius, morfologiškai irgi vadinamas obuoliu.",
+    "nuoroda": "https://lt.wikipedia.org/wiki/Obuolys"
+  },
+  {
+    "paveiksliukas": "banana",
+    "pavadinimas": "Bananas",
+    "aprasymas": "Bananas (lot. Musa) – bananinių (Musaceae) šeimos žolinių augalų gentis, kurioje yra apie 80 rūšių.",
+    "nuoroda": "https://lt.wikipedia.org/wiki/Bananas"
+  },
+  {
+    "paveiksliukas": "orange",
+    "pavadinimas": "Apelsinas",
+    "aprasymas": "Apelsinai – citrinvaisiai, kuriuos mezga kai kurie citrinmedžiai (Citrus).",
+    "nuoroda": "https://lt.wikipedia.org/wiki/Apelsinas"
+  }
+]

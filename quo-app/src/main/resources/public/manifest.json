@@ -1,0 +1,25 @@
+{
+  "short_name": "Vaikų darželių informacinė sistema",
+  "name": "Vaikų darželių informacinė sistema",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "home_house_icon_177096.ico",
+      "type": "image/ico",
+      "sizes": "192x192"
+    },
+    {
+      "src": "home_house_icon_177096.ico",
+      "type": "image/ico",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
