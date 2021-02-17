@@ -17,6 +17,7 @@
 	<description>Quotes app</description>
 
 	<properties>
+		<java.version>11</java.version>
 		<start-class>lt.quotes.Quotes</start-class>
 		<lombok.version>1.18.16</lombok.version>
 		<log4jdbc.log4j2.version>1.16</log4jdbc.log4j2.version>
