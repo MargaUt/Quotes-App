@@ -21,7 +21,7 @@ public class QuotesApp extends SpringBootServletInitializer {
 	public Docket swaggerDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo()).select()
-				.apis(RequestHandlerSelectors.basePackage("lt.vdis"))
+				.apis(RequestHandlerSelectors.basePackage("lt.quotes"))
 				.build();
 	}
 

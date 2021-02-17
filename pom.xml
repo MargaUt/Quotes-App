@@ -118,7 +118,7 @@
 					<addResources>true</addResources>
 				</configuration>
 			</plugin>
-			<!-- for heroku to run war (otherwise it runs jar) + created Procfile -->
+			<!-- for heroku to run war (otherwise it runs jar) + created Procfile + system.properties su jdk11 -->
 			<!-- source: https://devcenter.heroku.com/articles/java-webapp-runner and https://devcenter.heroku.com/articles/war-deployment -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
