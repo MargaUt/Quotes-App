@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +19,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lt.quotes.PagingData;
-import lt.quotes.user.data.User;
 import lt.quotes.user.service.ServisoSluoksnioUser;
 import lt.quotes.user.service.UserService;
+
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -59,7 +58,7 @@ public class UserController {
 
 	/* Apdoros užklausas: GET /api/sventes */
 	@RequestMapping(method = RequestMethod.GET)
-	@PreAuthorize("hasRole('Administratorius')") 
+//	@PreAuthorize("hasRole('Administratorius')") 
 	public List<RestUser> getUsers() {
 		pagingData.setLimit(10);
 		return userService.getUsers()
@@ -94,7 +93,6 @@ public class UserController {
 	/* Sukurs šventę ir grąžins atsakymą su HTTP statusu 201 */
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	@PreAuthorize("hasRole('Administratorius')") 
 	public void createUser(
 			@RequestBody
 			@Valid final CreateUserCommand cmd) {	
@@ -105,7 +103,7 @@ public class UserController {
 	/* Apdoros užklausas: DELETE /api/svente/<pavadinimas> */
 	@RequestMapping(path = "/{username}/", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@PreAuthorize("hasRole('Administratorius')")
+//	@PreAuthorize("hasRole('Administratorius')")
 	public void deleteUser(
 			@PathVariable final String username) {
 		userService.deleteUser(username);

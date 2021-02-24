@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lt.quotes.role.data.Role;
 import lt.quotes.role.data.RoleRepository;
 
+
 @Service
 public class RoleService {
 	@Autowired

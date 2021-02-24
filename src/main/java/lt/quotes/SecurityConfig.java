@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -34,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-	return new MessageDigestPasswordEncoder("SHA-256"); // galima pakeisti
+		return new BCryptPasswordEncoder();
+//	return new MessageDigestPasswordEncoder("SHA-256"); // galima pakeisti
 	}
 
 	@Autowired
@@ -49,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.authorizeRequests()
 				// be saugumo UI dalis ir swaggeris
-				.antMatchers("/", "/swagger-ui/", "/api/user/loggedUsername").permitAll()
+				.antMatchers("/", "/swagger-ui/", "/api/user/loggedUsername"  ).permitAll()
 				// visi /api/ saugus (dar galima .anyRequest() )
 				.antMatchers("/api/**").authenticated()
 			.and()

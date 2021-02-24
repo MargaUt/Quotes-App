@@ -27,7 +27,7 @@ public class QuotesApp extends SpringBootServletInitializer {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("Vaikų darželių informacinė sistema")
+				.title("Quotes app")
 				.version("1.0-SNAPSHOT")
 				.build();
 	}

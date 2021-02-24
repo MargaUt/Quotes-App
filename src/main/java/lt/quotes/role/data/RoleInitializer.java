@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import lt.quotes.role.service.RoleService;
 
+
 @Component
 public class RoleInitializer implements InitializingBean {
 	
@@ -14,9 +15,7 @@ public class RoleInitializer implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		roleService.sukurtiRole("Administratorius");
-		roleService.sukurtiRole("Švietimo specialistas");
-		roleService.sukurtiRole("Vaiko atstovas");
+		roleService.sukurtiRole("Administrator");
 
 	}
 

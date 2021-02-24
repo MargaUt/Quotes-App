@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,13 +33,13 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	 @PreAuthorize("hasRole('Administratorius')") 
+//	 @PreAuthorize("hasRole('Administratorius')") 
 	public void createUser(ServisoSluoksnioUser user ) {
 		if(user.getRole() == "Administratorius") {
 			throw new IllegalArgumentException("Draudžiama kurti Administratorius naudototojus");
 		}
 		User newUser = new User(user.getUsername(), user.getEmail());
-		PasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-256");
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		newUser.setPassword(encoder.encode(user.getPassword()));
 		var role = roleService.getOneRole(user.getRole());
 		newUser.setRole(role);
@@ -74,7 +75,7 @@ public class UserService implements UserDetailsService {
 	} // <..>
 
 	@Transactional(readOnly = true)
-	private User findByEmail(String email) {
+	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
 
