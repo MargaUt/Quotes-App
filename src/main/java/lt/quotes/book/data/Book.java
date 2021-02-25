@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
@@ -18,7 +19,10 @@ import javax.validation.constraints.NotBlank;
 import lt.quotes.quo.data.Quote;
 
 @Entity
-@Table(name = "Knyga")
+@Table(name = "Book", indexes = {
+		@Index(name = "idx_title_author", columnList="title, author", unique = true),	
+	}
+)
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
 

@@ -63,8 +63,8 @@ public class BookController {
 
 	@RequestMapping(path = "/{title}/", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteBook(@PathVariable final String title) {
-		bookService.deleteBook(title);
+	public void deleteBook(@PathVariable final String title, @PathVariable final String author ) {
+		bookService.deleteBook(title, author);
 
 	}
 

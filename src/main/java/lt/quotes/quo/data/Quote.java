@@ -6,20 +6,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import lt.quotes.book.data.Book;
 
 @Entity
-
+@Table(name = "Quote", indexes = {
+		@Index(name = "idx_date", columnList="date", unique = true),	
+	}
+)
 public class Quote {
 
 	@Id
@@ -36,25 +37,21 @@ public class Quote {
 	@JoinColumn(name = "BOOK_ID")
 	private Book book;
 
-	private String author;
-	private String title;
-
 	public Quote() {
-	}
-
-	public Quote(String text, Date date, int page, String author, String title) {
-		this.text = text;
-		this.date = date;
-		this.page = page;
-		this.author = book.getAuthor();
-		this.title = book.getTitle();
-
 	}
 
 	public Quote(String text, Date date, int page) {
 		this.text = text;
 		this.date = date;
 		this.page = page;
+
+	}
+
+	public Quote(String text, Date date, int page, Book book) {
+		this.text = text;
+		this.date = date;
+		this.page = page;
+		this.book = book;
 
 	}
 
@@ -96,22 +93,6 @@ public class Quote {
 
 	public void setBook(Book book) {
 		this.book = book;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 }

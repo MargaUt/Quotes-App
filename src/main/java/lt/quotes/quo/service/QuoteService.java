@@ -1,14 +1,13 @@
 package lt.quotes.quo.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lt.quotes.book.data.Book;
 import lt.quotes.book.data.BookRepository;
 import lt.quotes.quo.data.Quote;
 import lt.quotes.quo.data.QuoteRepository;
@@ -17,7 +16,8 @@ import lt.quotes.quo.data.QuoteRepository;
 public class QuoteService {
 	@Autowired
 	private QuoteRepository quoRepo;
-
+	@Autowired
+	private BookRepository bookRepo;
 
 	@Transactional(readOnly = true)
 	public List<QuoteInfo> getQuotes() {
@@ -26,25 +26,26 @@ public class QuoteService {
 
 	@Transactional
 	public void createQuote(QuoteInfo quoInfo) {
-		quoRepo.save(quoInfo.toQuote());
+		quoRepo.save(quoInfo.toQuote(bookRepo.findByAuthorAndTitle(quoInfo.getTitle(),
+				quoInfo.getAuthor())));
 	}
 
 	@Transactional(readOnly = true)
-	public QuoteInfo getQuote(String text) {
-		if (quoRepo.findByText(text) == null) {
+	public QuoteInfo getQuote(Date date) {
+		if (quoRepo.findByDate(date) == null) {
 			throw new IllegalArgumentException("There is no quote with this text.");
 		}
-		return QuoteInfo.from(quoRepo.findByText(text));
+		return QuoteInfo.from(quoRepo.findByDate(date));
 	}
 
 	@Transactional
-	public void deleteQuote(String text) {
-		quoRepo.deleteByText(text);
+	public void deleteQuote(Date date) {
+		quoRepo.deleteByDate(date);
 	}
 
 	@Transactional
-	public Quote updateQuote(QuoteInfo quoInfo, String text, int date, int page) {
-		Quote quoToUpdate = quoRepo.findByText(text);
+	public Quote updateQuote(QuoteInfo quoInfo, String text, Date date, int page) {
+		Quote quoToUpdate = quoRepo.findByDate(date);
 		if (quoToUpdate == null) {
 			throw new IllegalArgumentException("Didin't find quote");
 
@@ -61,6 +62,14 @@ public class QuoteService {
 
 	public void setQuoteRepo(QuoteRepository quoRepo) {
 		this.quoRepo = quoRepo;
+	}
+
+	public BookRepository getBookRepo() {
+		return bookRepo;
+	}
+
+	public void setBookRepo(BookRepository bookRepo) {
+		this.bookRepo = bookRepo;
 	}
 
 }

@@ -35,8 +35,10 @@ public class BookService {
 	}
 
 	@Transactional
-	public void deleteBook(String title) {
-		bookRepo.deleteByTitle(title);
+	public void deleteBook(String title, String author) {
+//		Jei randa tai knygai priskirta citata, 
+//		neleidzia istrinti, meta klaida ir sako, kad negalima trinti knygos turincios citatu.
+		bookRepo.deleteByTitleAndAuthor(title, author);
 	}
 
 	@Transactional(readOnly = true)

@@ -17,6 +17,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 	Book findByBookIsFinished(boolean bookIsFinished);
 
-	void deleteByTitle(String title);
+	void deleteByTitleAndAuthor(String title, String author);
 
 }

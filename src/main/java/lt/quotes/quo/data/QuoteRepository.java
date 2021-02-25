@@ -1,13 +1,12 @@
 package lt.quotes.quo.data;
 
+import java.util.Date;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
+	Quote findByDate(Date date);
 
-	Quote findByAuthorAndTitle(String author, String title);
-
-	Quote findByText(String text);
-
-	void deleteByText(String text);
+	void deleteByDate(Date date);
 
 }

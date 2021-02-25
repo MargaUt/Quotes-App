@@ -2,6 +2,7 @@ package lt.quotes.quo.service;
 
 import java.util.Date;
 
+import lt.quotes.book.data.Book;
 import lt.quotes.quo.data.Quote;
 
 public class QuoteInfo {
@@ -9,6 +10,8 @@ public class QuoteInfo {
 	private String text;
 	private Date date;
 	private int page;
+	private String title;
+	private String author;
 
 	public QuoteInfo() {
 	}
@@ -19,11 +22,12 @@ public class QuoteInfo {
 		this.page = page;
 	}
 
-
 	public QuoteInfo(Quote quote) {
 		this.text = quote.getText();
 		this.date = quote.getDate();
 		this.page = quote.getPage();
+		this.title = quote.getBook().getTitle();
+		this.author = quote.getBook().getAuthor();
 	}
 
 	/**
@@ -45,6 +49,9 @@ public class QuoteInfo {
 		return new Quote(text, date, page);
 	}
 
+	public Quote toQuote(Book book) {
+		return new Quote(text, date, page, book);
+	}
 	// Getters and setters
 
 	public String getText() {
@@ -71,5 +78,20 @@ public class QuoteInfo {
 		this.page = page;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
 
 }
