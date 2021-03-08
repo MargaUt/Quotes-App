@@ -9,15 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lt.quotes.book.data.Book;
 import lt.quotes.book.data.BookRepository;
+import lt.quotes.quo.data.Quote;
 
 @Service
 public class BookService {
 	@Autowired
 	private BookRepository bookRepo;
 
+
 	@Transactional(readOnly = true)
 	public List<BookInfo> getBooks() {
 		return bookRepo.findAll().stream().map(BookInfo::from).collect(Collectors.toList());
+
+	}
+
+	@Transactional(readOnly = true)
+	public long countQuotes(String title, String author) {
+		return bookRepo.countQuotes(title, author);
 
 	}
 
@@ -36,8 +44,10 @@ public class BookService {
 
 	@Transactional
 	public void deleteBook(String title, String author) {
-//		Jei randa tai knygai priskirta citata, 
-//		neleidzia istrinti, meta klaida ir sako, kad negalima trinti knygos turincios citatu.
+		if (countQuotes(title, author) != 0) {
+			throw new IllegalArgumentException("You cannot delete a book with existing quote.");
+		}
+
 		bookRepo.deleteByTitleAndAuthor(title, author);
 	}
 
@@ -64,5 +74,7 @@ public class BookService {
 		bookToUpdate.setBookIsFinished(bookInfo.getBookIsFinished());
 		return bookRepo.save(bookToUpdate);
 	}
+
+
 
 }

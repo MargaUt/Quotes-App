@@ -18,7 +18,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<start-class>lt.quotes.Quotes</start-class>
+		<start-class>lt.quotes.QuotesApp</start-class>
 		<lombok.version>1.18.16</lombok.version>
 		<log4jdbc.log4j2.version>1.16</log4jdbc.log4j2.version>
 		<rest.assured.version>2.3.3</rest.assured.version>
@@ -116,6 +116,9 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<addResources>true</addResources>
+			        <jvmArguments>
+			            -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5555
+			        </jvmArguments>
 				</configuration>
 			</plugin>
 			<!-- for heroku to run war (otherwise it runs jar) + created Procfile + system.properties su jdk11 -->

@@ -15,14 +15,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-
 import lt.quotes.quo.data.Quote;
 
 @Entity
-@Table(name = "Book", indexes = {
-		@Index(name = "idx_title_author", columnList="title, author", unique = true),	
-	}
-)
+@Table(name = "Book", indexes = { @Index(name = "idx_title_author", columnList = "title, author", unique = true), })
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
 
@@ -44,12 +40,8 @@ public class Book {
 
 	private List<Quote> quotes;
 
-	public Book(List<Quote> quotes) {
-		super();
-		this.quotes = quotes;
-	}
-
 	public Book() {
+		super();
 	}
 
 	public Book(String title, String author, int releasedYear, int bookPages, Boolean bookIsFinished) {
@@ -58,6 +50,16 @@ public class Book {
 		this.releasedYear = releasedYear;
 		this.booksPages = bookPages;
 		this.bookIsFinished = bookIsFinished;
+	}
+
+	public Book(String title, String author, int releasedYear,
+			int bookPages, Boolean bookIsFinished, List<Quote> quotes) {
+		this.title = title;
+		this.author = author;
+		this.releasedYear = releasedYear;
+		this.booksPages = bookPages;
+		this.bookIsFinished = bookIsFinished;
+		this.quotes = quotes;
 	}
 
 	public Long getId() {

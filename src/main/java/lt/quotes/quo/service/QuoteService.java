@@ -33,7 +33,7 @@ public class QuoteService {
 	@Transactional(readOnly = true)
 	public QuoteInfo getQuote(Date date) {
 		if (quoRepo.findByDate(date) == null) {
-			throw new IllegalArgumentException("There is no quote with this text.");
+			throw new IllegalArgumentException("There is no quote with this date.");
 		}
 		return QuoteInfo.from(quoRepo.findByDate(date));
 	}

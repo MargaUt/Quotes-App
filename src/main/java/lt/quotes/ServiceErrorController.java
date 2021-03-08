@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,14 @@ public class ServiceErrorController extends ResponseEntityExceptionHandler {
 		ConstraintViolationException.class,
 		JdbcSQLIntegrityConstraintViolationException.class})
 	protected ResponseEntity<Object> handleIllegalArgument(HttpServletRequest req, Exception ex) {
+		logger.error("ControllerAdvice error (from ServiceErrorController)");
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getMessage());
+		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
 		logger.error("ControllerAdvice error (from ServiceErrorController)");
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getMessage());
 		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);

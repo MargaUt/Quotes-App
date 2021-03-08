@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lt.quotes.PagingData;
 import lt.quotes.book.service.BookInfo;
 import lt.quotes.book.service.BookService;
+import lt.quotes.quo.service.QuoteService;
 
 @RestController
 @RequestMapping(value = "/api/book")
@@ -26,7 +27,7 @@ public class BookController {
 	private final BookService bookService; // pridedame servisa
 
 	@Autowired
-	public BookController(BookService bookService) {
+	public BookController(BookService bookService, QuoteService quoService) {
 		this.bookService = bookService;
 	}
 
@@ -46,7 +47,7 @@ public class BookController {
 		bookService.createBook(book);
 
 	}
-	
+
 	@RequestMapping(path = "/finished", method = RequestMethod.GET)
 	public BookInfo getActiveRow() {
 		return bookService.getReadBook();
@@ -54,16 +55,16 @@ public class BookController {
 
 	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateBook(@RequestBody @Valid final BookInfo book, @PathVariable final String title, 
-			@PathVariable final String author, @PathVariable final int releasedYear, 
-			@PathVariable final int booksPages, @PathVariable final boolean bookIsFinished) {
+	public void updateBook(@RequestBody @Valid final BookInfo book, @PathVariable final String title,
+			@PathVariable final String author, @PathVariable final int releasedYear, @PathVariable final int booksPages,
+			@PathVariable final boolean bookIsFinished) {
 //		logger.error("pavadinimas ir metai: " + title + year);
 		bookService.updateBook(book, title, author, releasedYear, booksPages, bookIsFinished);
 	}
 
-	@RequestMapping(path = "/{title}/", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteBook(@PathVariable final String title, @PathVariable final String author ) {
+	public void deleteBook(@PathVariable final String title, @PathVariable final String author) {
 		bookService.deleteBook(title, author);
 
 	}

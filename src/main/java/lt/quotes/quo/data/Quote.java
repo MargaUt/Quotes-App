@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import lt.quotes.book.data.Book;
 
 @Entity
@@ -29,7 +27,6 @@ public class Quote {
 
 	@NotBlank
 	private String text;
-	@DateTimeFormat
 	private Date date;
 
 	private int page;

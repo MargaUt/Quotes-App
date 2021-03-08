@@ -1,11 +1,14 @@
 package lt.quotes.quo.rest;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,11 +42,11 @@ public class QuoteController {
 	}
 
 	@RequestMapping(path = "/{date}/", method = RequestMethod.GET)
-	public QuoteInfo getQuote(@PathVariable final Date date) {
+	public QuoteInfo getQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final Date date) {
 		return quoService.getQuote(date);
 	}
 
-	@RequestMapping(path = "/{title}/{author}/",method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createQuote(@RequestBody @Valid QuoteInfo quote) {
 		if (bookService.getBook(quote.getTitle(), quote.getAuthor()) == null ) {
@@ -53,15 +56,14 @@ public class QuoteController {
 
 	}
 
-	@RequestMapping(path = "/{text}/", method = RequestMethod.PUT)
+	@RequestMapping(path = "/{date}/", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateQuote(@RequestBody @Valid final QuoteInfo quote, @PathVariable final String text,
 			@PathVariable final Date date, @PathVariable final int page) {
-//		logger.error("pavadinimas ir metai: " + title + year);
 		quoService.updateQuote(quote, text, date, page);
 	}
 
-	@RequestMapping(path = "/{text}/", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/{date}/", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteQuote(@PathVariable final Date date) {
 		quoService.deleteQuote(date);

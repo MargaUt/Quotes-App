@@ -1,11 +1,12 @@
 package lt.quotes.book.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import lt.quotes.book.data.Book;
 import lt.quotes.quo.data.Quote;
-import lt.quotes.quo.service.QuoteInfo;
-
 
 public class BookInfo {
 
@@ -14,8 +15,6 @@ public class BookInfo {
 	private int releasedYear;
 	private int booksPages;
 	private boolean bookIsFinished;
-	
-
 
 	public BookInfo() {
 		super();
@@ -28,6 +27,8 @@ public class BookInfo {
 		this.booksPages = booksPages;
 		this.bookIsFinished = bookIsFinished;
 	}
+
+
 
 	public BookInfo(Book book) {
 		this.title = book.getTitle();
@@ -55,6 +56,7 @@ public class BookInfo {
 	public Book toBook() {
 		return new Book(title, author, releasedYear, booksPages, bookIsFinished);
 	}
+
 // toliau - get ir set metodai
 
 	public String getTitle() {
@@ -96,4 +98,6 @@ public class BookInfo {
 	public void setBookIsFinished(boolean bookIsFinished) {
 
 	}
+
+
 }
