@@ -26,8 +26,7 @@ public class QuoteService {
 
 	@Transactional
 	public void createQuote(QuoteInfo quoInfo) {
-		quoRepo.save(quoInfo.toQuote(bookRepo.findByAuthorAndTitle(quoInfo.getTitle(),
-				quoInfo.getAuthor())));
+		quoRepo.save(quoInfo.toQuote(bookRepo.findByAuthorAndTitle(quoInfo.getTitle(), quoInfo.getAuthor())));
 	}
 
 	@Transactional(readOnly = true)
@@ -44,7 +43,7 @@ public class QuoteService {
 	}
 
 	@Transactional
-	public Quote updateQuote(QuoteInfo quoInfo, String text, Date date, int page) {
+	public Quote updateQuote(QuoteInfo quoInfo, Date date) {
 		Quote quoToUpdate = quoRepo.findByDate(date);
 		if (quoToUpdate == null) {
 			throw new IllegalArgumentException("Didin't find quote");

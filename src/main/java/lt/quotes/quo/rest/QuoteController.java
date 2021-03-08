@@ -30,11 +30,10 @@ public class QuoteController {
 //	 private static Logger logger = LoggerFactory.getLogger(QuoteController.class);
 
 	@Autowired
-	public QuoteController(QuoteService quoService, BookService bookService ) {
+	public QuoteController(QuoteService quoService, BookService bookService) {
 		this.quoService = quoService;
 		this.bookService = bookService;
 	}
-
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<QuoteInfo> getQuotes() {
@@ -49,7 +48,7 @@ public class QuoteController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createQuote(@RequestBody @Valid QuoteInfo quote) {
-		if (bookService.getBook(quote.getTitle(), quote.getAuthor()) == null ) {
+		if (bookService.getBook(quote.getTitle(), quote.getAuthor()) == null) {
 			throw new IllegalArgumentException("You cannot create a quote without the author and title of the book.");
 		}
 		quoService.createQuote(quote);
@@ -58,14 +57,14 @@ public class QuoteController {
 
 	@RequestMapping(path = "/{date}/", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateQuote(@RequestBody @Valid final QuoteInfo quote, @PathVariable final String text,
-			@PathVariable final Date date, @PathVariable final int page) {
-		quoService.updateQuote(quote, text, date, page);
+	public void updateQuote(@RequestBody @Valid final QuoteInfo quote,
+			@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final Date date) {
+		quoService.updateQuote(quote, date);
 	}
 
 	@RequestMapping(path = "/{date}/", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteQuote(@PathVariable final Date date) {
+	public void deleteQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final Date date) {
 		quoService.deleteQuote(date);
 
 	}
