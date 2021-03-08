@@ -1,6 +1,7 @@
 package lt.quotes.quo.service;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lt.quotes.book.data.Book;
 import lt.quotes.quo.data.Quote;
@@ -8,7 +9,7 @@ import lt.quotes.quo.data.Quote;
 public class QuoteInfo {
 
 	private String text;
-	private Date date;
+	private LocalDateTime date;
 	private int page;
 	private String title;
 	private String author;
@@ -16,7 +17,7 @@ public class QuoteInfo {
 	public QuoteInfo() {
 	}
 
-	public QuoteInfo(String text, Date date, int page) {
+	public QuoteInfo(String text, LocalDateTime date, int page) {
 		this.text = text;
 		this.date = date;
 		this.page = page;
@@ -62,11 +63,11 @@ public class QuoteInfo {
 		this.text = text;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 

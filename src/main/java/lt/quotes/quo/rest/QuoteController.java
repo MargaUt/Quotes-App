@@ -1,7 +1,7 @@
 package lt.quotes.quo.rest;
 
+
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -41,7 +41,7 @@ public class QuoteController {
 	}
 
 	@RequestMapping(path = "/{date}/", method = RequestMethod.GET)
-	public QuoteInfo getQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final Date date) {
+	public QuoteInfo getQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
 		return quoService.getQuote(date);
 	}
 
@@ -58,13 +58,13 @@ public class QuoteController {
 	@RequestMapping(path = "/{date}/", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateQuote(@RequestBody @Valid final QuoteInfo quote,
-			@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final Date date) {
+			@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
 		quoService.updateQuote(quote, date);
 	}
 
 	@RequestMapping(path = "/{date}/", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final Date date) {
+	public void deleteQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
 		quoService.deleteQuote(date);
 
 	}

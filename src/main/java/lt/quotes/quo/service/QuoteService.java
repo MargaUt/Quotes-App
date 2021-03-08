@@ -1,6 +1,7 @@
 package lt.quotes.quo.service;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class QuoteService {
 	}
 
 	@Transactional(readOnly = true)
-	public QuoteInfo getQuote(Date date) {
+	public QuoteInfo getQuote(LocalDateTime date) {
 		if (quoRepo.findByDate(date) == null) {
 			throw new IllegalArgumentException("There is no quote with this date.");
 		}
@@ -38,12 +39,12 @@ public class QuoteService {
 	}
 
 	@Transactional
-	public void deleteQuote(Date date) {
+	public void deleteQuote(LocalDateTime date) {
 		quoRepo.deleteByDate(date);
 	}
 
 	@Transactional
-	public Quote updateQuote(QuoteInfo quoInfo, Date date) {
+	public Quote updateQuote(QuoteInfo quoInfo, LocalDateTime date) {
 		Quote quoToUpdate = quoRepo.findByDate(date);
 		if (quoToUpdate == null) {
 			throw new IllegalArgumentException("Didin't find quote");

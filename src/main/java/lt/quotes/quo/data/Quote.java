@@ -1,6 +1,7 @@
 package lt.quotes.quo.data;
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Quote {
 
 	@NotBlank
 	private String text;
-	private Date date;
+	private LocalDateTime date;
 
 	private int page;
 	@ManyToOne
@@ -37,14 +38,14 @@ public class Quote {
 	public Quote() {
 	}
 
-	public Quote(String text, Date date, int page) {
+	public Quote(String text, LocalDateTime date, int page) {
 		this.text = text;
 		this.date = date;
 		this.page = page;
 
 	}
 
-	public Quote(String text, Date date, int page, Book book) {
+	public Quote(String text, LocalDateTime date, int page, Book book) {
 		this.text = text;
 		this.date = date;
 		this.page = page;
@@ -68,11 +69,11 @@ public class Quote {
 		this.text = text;
 	}
 
-	public Date getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 
