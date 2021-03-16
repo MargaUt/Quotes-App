@@ -1,6 +1,6 @@
 {
-  "short_name": "Vaikų darželių informacinė sistema",
-  "name": "Vaikų darželių informacinė sistema",
+  "short_name": "Quotes",
+  "name": "Quotes",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "home_house_icon_177096.ico",
+      "src": "chat_quote_fill_icon_159634.ico",
       "type": "image/ico",
       "sizes": "192x192"
     },
     {
-      "src": "home_house_icon_177096.ico",
+      "src": "chat_quote_fill_icon_159634.ico",
       "type": "image/ico",
       "sizes": "512x512"
     }
