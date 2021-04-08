@@ -49,17 +49,16 @@ public class BookController {
 	}
 
 	@RequestMapping(path = "/finished", method = RequestMethod.GET)
-	public BookInfo getActiveRow() {
+	public BookInfo getReadBook() {
 		return bookService.getReadBook();
 	}
 
 	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateBook(@RequestBody @Valid final BookInfo book, @PathVariable final String title,
-			@PathVariable final String author, @PathVariable final int releasedYear, @PathVariable final int booksPages,
-			@PathVariable final boolean bookIsFinished) {
+			@PathVariable final String author) {
 //		logger.error("pavadinimas ir metai: " + title + year);
-		bookService.updateBook(book, title, author, releasedYear, booksPages, bookIsFinished);
+		bookService.updateBook(book, title, author);
 	}
 
 	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.DELETE)

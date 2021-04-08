@@ -1,12 +1,9 @@
 package lt.quotes.book.service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
 
 import lt.quotes.book.data.Book;
-import lt.quotes.quo.data.Quote;
+
 
 public class BookInfo {
 
@@ -14,21 +11,22 @@ public class BookInfo {
 	private String author;
 	private int releasedYear;
 	private int booksPages;
-	private boolean bookIsFinished;
+	private Boolean bookIsFinished;
+	private String picture;
 
 	public BookInfo() {
 		super();
 	}
 
-	public BookInfo(String title, String author, int releasedYear, int booksPages, boolean bookIsFinished) {
+	public BookInfo(String title, String author, int releasedYear, int booksPages, 
+		String picture,	Boolean bookIsFinished) {
 		this.title = title;
 		this.author = author;
 		this.releasedYear = releasedYear;
 		this.booksPages = booksPages;
 		this.bookIsFinished = bookIsFinished;
+		this.setPicture(picture);
 	}
-
-
 
 	public BookInfo(Book book) {
 		this.title = book.getTitle();
@@ -36,6 +34,8 @@ public class BookInfo {
 		this.releasedYear = book.getReleasedYear();
 		this.booksPages = book.getBooksPages();
 		this.bookIsFinished = book.getBookIsFinished();
+		this.picture = book.getPicture();
+
 	}
 
 	/**
@@ -44,6 +44,7 @@ public class BookInfo {
 	 * @param book
 	 * @return
 	 */
+
 	public static BookInfo from(Book book) {
 		return new BookInfo(book);
 	}
@@ -54,7 +55,8 @@ public class BookInfo {
 	 * @return
 	 */
 	public Book toBook() {
-		return new Book(title, author, releasedYear, booksPages, bookIsFinished);
+		System.out.println(bookIsFinished);
+		return new Book(title, author, releasedYear, booksPages, bookIsFinished, picture);
 	}
 
 // toliau - get ir set metodai
@@ -95,9 +97,16 @@ public class BookInfo {
 		return bookIsFinished;
 	}
 
-	public void setBookIsFinished(boolean bookIsFinished) {
-
+	public void setBookIsFinished(Boolean bookIsFinished) {
+		this.bookIsFinished = bookIsFinished;
 	}
 
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 
 }

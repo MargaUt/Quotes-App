@@ -1,6 +1,5 @@
 package lt.quotes.quo.rest;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import lt.quotes.book.service.BookInfo;
 import lt.quotes.book.service.BookService;
+import lt.quotes.quo.service.QuoteEditInfo;
 import lt.quotes.quo.service.QuoteInfo;
 import lt.quotes.quo.service.QuoteService;
 
@@ -55,11 +56,16 @@ public class QuoteController {
 
 	}
 
+	@RequestMapping(path = "/favourite", method = RequestMethod.GET)
+	public QuoteEditInfo getFavouriteQuote() {
+		return quoService.getFavouriteQuote();
+	}
+
 	@RequestMapping(path = "/{date}/", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateQuote(@RequestBody @Valid final QuoteInfo quote,
+	public void updateQuote(@RequestBody @Valid final QuoteEditInfo quoteEdit,
 			@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
-		quoService.updateQuote(quote, date);
+		quoService.updateQuote(quoteEdit, date);
 	}
 
 	@RequestMapping(path = "/{date}/", method = RequestMethod.DELETE)

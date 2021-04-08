@@ -8,11 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import lt.quotes.quo.data.Quote;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-	Book findByAuthorAndTitle(String title, String author);
-
-	Book findByTitle(String title);
-
-	Book findByAuthor(String author);
+	Book findByTitleAndAuthor(String title, String author);
 
 	Book findByReleasedYear(int releasedYear);
 

@@ -9,11 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lt.quotes.quo.data.Quote;
 
@@ -35,7 +37,10 @@ public class Book {
 	@Max(3000)
 	private int releasedYear;
 	private int booksPages;
+	@NotNull
 	private Boolean bookIsFinished;
+	@Lob 
+	private String picture;
 	@OneToMany(mappedBy = "book", cascade = { CascadeType.DETACH, CascadeType.MERGE })
 
 	private List<Quote> quotes;
@@ -44,21 +49,24 @@ public class Book {
 		super();
 	}
 
-	public Book(String title, String author, int releasedYear, int bookPages, Boolean bookIsFinished) {
+	public Book(String title, String author, int releasedYear, int bookPages, 
+			Boolean bookIsFinished, String picture) {
 		this.title = title;
 		this.author = author;
 		this.releasedYear = releasedYear;
 		this.booksPages = bookPages;
 		this.bookIsFinished = bookIsFinished;
+		this.picture = picture;
 	}
 
 	public Book(String title, String author, int releasedYear,
-			int bookPages, Boolean bookIsFinished, List<Quote> quotes) {
+			int bookPages, Boolean bookIsFinished, String picture, List<Quote> quotes) {
 		this.title = title;
 		this.author = author;
 		this.releasedYear = releasedYear;
 		this.booksPages = bookPages;
 		this.bookIsFinished = bookIsFinished;
+		this.picture = picture;
 		this.quotes = quotes;
 	}
 
@@ -116,5 +124,13 @@ public class Book {
 
 	public void setBookIsFinished(Boolean bookIsFinished) {
 		this.bookIsFinished = bookIsFinished;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 }

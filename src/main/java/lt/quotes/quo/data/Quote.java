@@ -1,6 +1,5 @@
 package lt.quotes.quo.data;
 
-
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -16,10 +15,7 @@ import javax.validation.constraints.NotBlank;
 import lt.quotes.book.data.Book;
 
 @Entity
-@Table(name = "Quote", indexes = {
-		@Index(name = "idx_date", columnList="date", unique = true),	
-	}
-)
+@Table(name = "Quote", indexes = { @Index(name = "idx_date", columnList = "date", unique = true), })
 public class Quote {
 
 	@Id
@@ -29,7 +25,7 @@ public class Quote {
 	@NotBlank
 	private String text;
 	private LocalDateTime date;
-
+	private Boolean favourite;
 	private int page;
 	@ManyToOne
 	@JoinColumn(name = "BOOK_ID")
@@ -38,17 +34,19 @@ public class Quote {
 	public Quote() {
 	}
 
-	public Quote(String text, LocalDateTime date, int page) {
+	public Quote(String text, LocalDateTime date, int page, Boolean favourite) {
 		this.text = text;
 		this.date = date;
 		this.page = page;
+		this.favourite = favourite;
 
 	}
 
-	public Quote(String text, LocalDateTime date, int page, Book book) {
+	public Quote(String text, LocalDateTime date, int page, Boolean favourite, Book book) {
 		this.text = text;
 		this.date = date;
 		this.page = page;
+		this.favourite = favourite;
 		this.book = book;
 
 	}
@@ -91,6 +89,14 @@ public class Quote {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+
+	public Boolean getFavourite() {
+		return favourite;
+	}
+
+	public void setFavourite(Boolean favourite) {
+		this.favourite = favourite;
 	}
 
 }

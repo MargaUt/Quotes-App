@@ -3,6 +3,7 @@ package lt.quotes.book.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,6 @@ import lt.quotes.quo.data.Quote;
 public class BookService {
 	@Autowired
 	private BookRepository bookRepo;
-
 
 	@Transactional(readOnly = true)
 	public List<BookInfo> getBooks() {
@@ -31,15 +31,16 @@ public class BookService {
 
 	@Transactional
 	public void createBook(BookInfo bookInfo) {
+
 		bookRepo.save(bookInfo.toBook());
 	}
 
 	@Transactional(readOnly = true)
 	public BookInfo getBook(String title, String author) {
-		if (bookRepo.findByAuthorAndTitle(title, author) == null) {
+		if (bookRepo.findByTitleAndAuthor(title, author) == null) {
 			throw new IllegalArgumentException("There is no such book.");
 		}
-		return BookInfo.from(bookRepo.findByAuthorAndTitle(title, author));
+		return BookInfo.from(bookRepo.findByTitleAndAuthor(title, author));
 	}
 
 	@Transactional
@@ -60,9 +61,8 @@ public class BookService {
 	}
 
 	@Transactional
-	public Book updateBook(BookInfo bookInfo, String title, String author, int releasedYear, int booksPages,
-			Boolean bookIsFinished) {
-		Book bookToUpdate = bookRepo.findByAuthorAndTitle(title, author);
+	public Book updateBook(BookInfo bookInfo, String title, String author) {
+		Book bookToUpdate = bookRepo.findByTitleAndAuthor(title, author);
 		if (bookToUpdate == null) {
 			throw new IllegalArgumentException("Didin't find book");
 
@@ -72,9 +72,8 @@ public class BookService {
 		bookToUpdate.setReleasedYear(bookInfo.getReleasedYear());
 		bookToUpdate.setBooksPages(bookInfo.getBooksPages());
 		bookToUpdate.setBookIsFinished(bookInfo.getBookIsFinished());
+		bookToUpdate.setPicture(bookInfo.getPicture());
 		return bookRepo.save(bookToUpdate);
 	}
-
-
 
 }

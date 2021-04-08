@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lt.quotes.book.data.BookRepository;
+import lt.quotes.book.service.BookInfo;
 import lt.quotes.quo.data.Quote;
 import lt.quotes.quo.data.QuoteRepository;
 
@@ -27,7 +28,7 @@ public class QuoteService {
 
 	@Transactional
 	public void createQuote(QuoteInfo quoInfo) {
-		quoRepo.save(quoInfo.toQuote(bookRepo.findByAuthorAndTitle(quoInfo.getTitle(), quoInfo.getAuthor())));
+		quoRepo.save(quoInfo.toQuote(bookRepo.findByTitleAndAuthor(quoInfo.getTitle(), quoInfo.getAuthor())));
 	}
 
 	@Transactional(readOnly = true)
@@ -44,16 +45,25 @@ public class QuoteService {
 	}
 
 	@Transactional
-	public Quote updateQuote(QuoteInfo quoInfo, LocalDateTime date) {
+	public Quote updateQuote(QuoteEditInfo quoEditInfo, LocalDateTime date) {
 		Quote quoToUpdate = quoRepo.findByDate(date);
 		if (quoToUpdate == null) {
 			throw new IllegalArgumentException("Didin't find quote");
 
 		}
-		quoToUpdate.setText(quoInfo.getText());
-		quoToUpdate.setDate(quoInfo.getDate());
-		quoToUpdate.setPage(quoInfo.getPage());
+		quoToUpdate.setText(quoEditInfo.getText());
+		quoToUpdate.setDate(quoEditInfo.getDate());
+		quoToUpdate.setPage(quoEditInfo.getPage());
+		quoToUpdate.setFavourite(quoEditInfo.getFavourite());
 		return quoRepo.save(quoToUpdate);
+	}
+
+	@Transactional(readOnly = true)
+	public QuoteEditInfo getFavouriteQuote() {
+		if (quoRepo.findFavouriteQuote() == null) {
+			return null;
+		}
+		return QuoteEditInfo.from(quoRepo.findFavouriteQuote());
 	}
 
 	public QuoteRepository getQuoteRepo() {
