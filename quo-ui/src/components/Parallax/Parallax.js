@@ -1,4 +1,4 @@
-import "./Parallax.scss";
+import "./Parallax.css";
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
