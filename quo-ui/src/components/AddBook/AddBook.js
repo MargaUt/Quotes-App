@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import axios from "axios";
 import url from "./../../UrlConfig";
 import { withRouter } from 'react-router';
-import './AddBook.css';
-
+import './AddBook.scss';
+import ImageUploader from '../ImageUploader/ImageUploader.js';
+import PropTypes from "prop-types";
 
 class AddBook extends Component {
 
   constructor(props) {
+
     super(props);
     this.state = { 
         author: "",
@@ -15,6 +17,7 @@ class AddBook extends Component {
         booksPages: "",
         releasedYear: 2000,
         title: "",
+        picture: "",
         error: ""
         }
   }
@@ -28,8 +31,8 @@ class AddBook extends Component {
 
   handleBookTitle = (event) => this.setState({ title: event.target.value});
 
-  
-
+  handlePicture = (picture) => this.setState({ picture: picture});
+ 
   handleBookIsFinished = (event) =>{
    console.log("value: ", event.target.checked)
    this.setState({ bookIsFinished: event.target.checked})
@@ -42,6 +45,7 @@ class AddBook extends Component {
       booksPages: this.state.booksPages,
       releasedYear: this.state.releasedYear,
       title: this.state.title,
+      picture: this.state.picture
    
     }
     try {
@@ -104,6 +108,17 @@ class AddBook extends Component {
       </div>
     </div>
 
+      <ImageUploader
+        className="picture-uploader"
+        onChange={(picture) => this.handlePicture(picture)}
+        defaultImage={this.state.picture}
+        defaultDisplayImage={
+        <div className="testi-image">
+            <img alt="picture" src={this.state.picture} />
+        </div>
+        }
+      />
+
     <div className="col-auto my-1">
       <button type="submit" className="btn btn-primary">Save</button>
     </div>
@@ -114,4 +129,9 @@ class AddBook extends Component {
     );
   }
 }
+
+AddBook.propTypes = {
+onChange: PropTypes.func.isRequired,
+
+};
  export default withRouter(AddBook);

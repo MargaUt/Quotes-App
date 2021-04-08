@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import DeleteBookModal from "../DeleteBookModal/DeleteBookModal";
 import EditBook from "../EditBook/EditBook"
+import './Book.css';
 
 class Book extends Component { 
 
@@ -14,6 +15,7 @@ cleanData = (date) =>{
     return (
       <tbody>
         <tr>
+          <td ><img  className="picture" alt="picture" src={this.props.picture}/></td>
           <td type="text">{this.props.title}</td>
           <td type="text">{this.props.author}</td>
           <td  type="number">{this.props.releasedYear}</td>
@@ -50,6 +52,7 @@ Book.propTypes = {
   bookIsFinished: PropTypes.bool.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleEditBook: PropTypes.func.isRequired,
+  picture: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired
 
 };

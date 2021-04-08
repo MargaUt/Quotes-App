@@ -34,6 +34,7 @@ class Books extends Component {
                     releasedYear={book.releasedYear}
                     booksPages={book.booksPages}
                     bookIsFinished={book.bookIsFinished}
+                    picture={book.picture}
                     handleEditBook={(e) => this.handleBookEdit(e, book.title, book.author)}
                     handleDelete={(e) => this.handleDelete(e, book.title, book.author)}
                     />
@@ -54,6 +55,7 @@ class Books extends Component {
               <table className="table table-hover">
                 <thead>
                     <tr>
+                    <th scope="col">&nbsp;</th>
                     <th scope="col">Title</th>
                     <th scope="col">Author</th>
                     <th scope="col">Book released year</th>

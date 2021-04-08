@@ -2,14 +2,14 @@ import { get } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { MAX_IMAGE_SIZE } from '../../Utilities/constants';
+import { MAX_IMAGE_SIZE } from '../Utilities/constants';
 import {
   generateFileObject,
   toBase64,
   validateSize,
-} from '../../Utilities/fileUtils';
+} from '../Utilities/fileUtils';
 import './ImageUploader.scss';
-const pixelRatio = 4;
+const pixelRatio = 1;
 
 function ImageUploader(props) {
   const {
@@ -24,14 +24,13 @@ function ImageUploader(props) {
   const [blob, setBlob] = useState(null);
   const [isCropperActive, setCropperActive] = useState(false);
   const [crop, setCrop] = useState({
-    unit: '%',
-    width: 30,
-    aspect: aspect || 16 / 9,
+    unit: 'px',
+    width: 200,
+    aspect: aspect || 1 / 1.33,
   });
   const [croppedImg, setCroppedImg] = useState(defaultImage || null);
   const imgRef = useRef(null);
   const [completedCrop, setCompletedCrop] = useState(null);
-  const { t } = useTranslation();
 
   const onLoad = useCallback((img) => {
     imgRef.current = img;
@@ -74,7 +73,7 @@ function ImageUploader(props) {
     const file = get(event, 'target.files[0]');
     if (!validateSize(file, MAX_IMAGE_SIZE)) {
       if (onError) {
-        onError(t('ImageUploader.Error.FileSize'));
+        onError("eroor");
       }
     }
     generateFileObject([file]).then((fileObject) => {
@@ -99,6 +98,8 @@ function ImageUploader(props) {
             src={blob}
             onImageLoaded={onLoad}
             crop={crop}
+            keepSelection={true}
+            locked={true}
             onChange={(c) => setCrop(c)}
             onComplete={(c) => setCompletedCrop(c)}
           />
@@ -111,7 +112,7 @@ function ImageUploader(props) {
             className="btn btn-success d-flex justify-content-center align-items-center mt-1"
             onClick={handleCropCompletion}
           >
-            <span className="mr-1">{t('ImageUploader.Done')}</span>
+            <span className="mr-1">Upload</span>
             <i className="icon-line-circle-check" />
           </button>
         )}
@@ -125,7 +126,7 @@ function ImageUploader(props) {
               htmlFor="image-uploader-file-input"
               className="btn btn-success mt-1 upload-button"
             >
-              {t('ImageUploader.UploadFile')}
+            Upload
             </label>
             <input
               id="image-uploader-file-input"
