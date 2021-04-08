@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from "axios";
 import url from "./../../UrlConfig";
 import { withRouter } from 'react-router';
-import './EditBook.css';
+import './EditBook.scss';
+import ImageUploader from '../ImageUploader/ImageUploader.js';
 
 
 class EditBook extends Component {
@@ -17,6 +18,7 @@ class EditBook extends Component {
         releasedYear: 2000,
         booksPages: "",
         bookIsFinished: true,
+        picture: "",
         error: ""
         }
   }
@@ -30,6 +32,8 @@ class EditBook extends Component {
 
   handleBookTitle = (event) => this.setState({ title: event.target.value});
 
+  handlePicture = (picture) => this.setState({ picture: picture});
+
   handleFinishedToReadBook = (event) =>{
     console.log("value: ", event.target.checked)
     this.setState({ bookIsFinished: event.target.checked})
@@ -41,7 +45,8 @@ class EditBook extends Component {
       bookIsFinished: this.state.bookIsFinished,
       booksPages: this.state.booksPages,
       releasedYear: this.state.releasedYear, 
-      title: this.state.title
+      title: this.state.title,
+      picture: this.state.picture
     }
     try {
       await axios.put(`${url}/api/book/${this.state.currentTitle}/${this.state.currentAuthor}/`, data)
@@ -98,6 +103,19 @@ class EditBook extends Component {
                     onChange={this.handleBookTitle} placeholder={this.state.title}/>
               </div>
 
+
+             <ImageUploader
+              className="picture-uploader"
+              onChange={(picture) => this.handlePicture(picture)}
+              defaultImage={this.state.picture}
+              defaultDisplayImage={
+             <div className="testi-image">
+               <img alt="picture" src={this.state.picture} value={this.state.picture} />
+               
+             </div>
+        }
+      />
+
               <div className="col-auto my-1">
                 <button type="submit" className="btn btn-primary">Save</button>
               </div>
@@ -126,7 +144,8 @@ class EditBook extends Component {
          bookIsFinished: answer.data.bookIsFinished,
          booksPages: answer.data.booksPages,
          releasedYear: answer.data.releasedYear, 
-         title: answer.data.title
+         title: answer.data.title,
+         picture: answer.data.picture
         })
       })
       .catch((error) => {

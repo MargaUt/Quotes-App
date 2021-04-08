@@ -4,7 +4,6 @@ import url from "./../../UrlConfig";
 import { withRouter } from 'react-router';
 import './AddBook.scss';
 import ImageUploader from '../ImageUploader/ImageUploader.js';
-import PropTypes from "prop-types";
 
 class AddBook extends Component {
 
@@ -130,8 +129,4 @@ class AddBook extends Component {
   }
 }
 
-AddBook.propTypes = {
-onChange: PropTypes.func.isRequired,
-
-};
  export default withRouter(AddBook);
