@@ -35,6 +35,8 @@ public class BookController {
 	public List<BookInfo> getBooks() {
 		return bookService.getBooks();
 	}
+	
+	
 
 	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.GET)
 	public BookInfo getBook(@PathVariable final String title, @PathVariable final String author) {

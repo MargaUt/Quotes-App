@@ -1,10 +1,10 @@
 package lt.quotes.quo.data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import lt.quotes.book.data.Book;
+import org.springframework.data.jpa.repository.Query;
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
@@ -15,6 +15,12 @@ public interface QuoteRepository extends JpaRepository<Quote, Long> {
 	}
 
 	Quote findByFavourite(boolean favourite);
+
+//	
+//	@Query(value = "select * from persons limit 50", nativeQuery = true)
+//	List<Quote> findAllByOrderByDateDesc();
+
+	List<Quote> findTop3ByOrderByDateDesc();
 
 	void deleteByDate(LocalDateTime date);
 

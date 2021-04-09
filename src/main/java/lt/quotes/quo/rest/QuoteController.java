@@ -41,6 +41,12 @@ public class QuoteController {
 		return quoService.getQuotes();
 	}
 
+
+	@RequestMapping(path = "/latest/",method = RequestMethod.GET)
+	public List<QuoteInfo> getLatestQuotes() {
+		return quoService.getLatestQuotes();
+	}
+	
 	@RequestMapping(path = "/{date}/", method = RequestMethod.GET)
 	public QuoteInfo getQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
 		return quoService.getQuote(date);

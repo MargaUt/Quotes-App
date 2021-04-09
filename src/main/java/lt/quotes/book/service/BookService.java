@@ -22,6 +22,8 @@ public class BookService {
 		return bookRepo.findAll().stream().map(BookInfo::from).collect(Collectors.toList());
 
 	}
+	
+	
 
 	@Transactional(readOnly = true)
 	public long countQuotes(String title, String author) {
