@@ -1,15 +1,15 @@
 package lt.quotes.book.rest;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,15 +25,19 @@ public class BookController {
 	@Autowired
 	private PagingData pagingData;
 	private final BookService bookService; // pridedame servisa
-
+	@Autowired
+	private PagingData paging;
+	
 	@Autowired
 	public BookController(BookService bookService, QuoteService quoService) {
 		this.bookService = bookService;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<BookInfo> getBooks() {
-		return bookService.getBooks();
+	public Page<BookInfo> getBooks(
+			@RequestParam(defaultValue = "0") int page) {
+		paging.setPage(page);
+		return bookService.getAllBooks();
 	}
 	
 	
@@ -76,6 +80,14 @@ public class BookController {
 
 	public void setPagingData(PagingData pagingData) {
 		this.pagingData = pagingData;
+	}
+
+	public PagingData getPaging() {
+		return paging;
+	}
+
+	public void setPaging(PagingData paging) {
+		this.paging = paging;
 	}
 
 }

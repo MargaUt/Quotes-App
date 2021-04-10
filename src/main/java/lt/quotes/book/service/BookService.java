@@ -5,21 +5,33 @@ import java.util.stream.Collectors;
 
 //import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lt.quotes.PagingData;
 import lt.quotes.book.data.Book;
 import lt.quotes.book.data.BookRepository;
-import lt.quotes.quo.data.Quote;
 
 @Service
 public class BookService {
 	@Autowired
 	private BookRepository bookRepo;
+	
+	@Autowired
+	private PagingData paging;
 
+//	@Transactional(readOnly = true)
+//	public List<BookInfo> getBooks(int page, int limit) {
+//		return bookRepo.findAll(PageRequest.of(paging.getPage(), paging.getLimit())).stream().map(BookInfo::from).collect(Collectors.toList());
+//
+//	}
+	
+	
 	@Transactional(readOnly = true)
-	public List<BookInfo> getBooks() {
-		return bookRepo.findAll().stream().map(BookInfo::from).collect(Collectors.toList());
+	public Page<BookInfo> getAllBooks() {
+		return bookRepo.findAll(PageRequest.of(paging.getPage(), paging.getLimit())).map(BookInfo::from);
 
 	}
 	
@@ -76,6 +88,18 @@ public class BookService {
 		bookToUpdate.setBookIsFinished(bookInfo.getBookIsFinished());
 		bookToUpdate.setPicture(bookInfo.getPicture());
 		return bookRepo.save(bookToUpdate);
+	}
+
+
+
+	public PagingData getPaging() {
+		return paging;
+	}
+
+
+
+	public void setPaging(PagingData paging) {
+		this.paging = paging;
 	}
 
 }

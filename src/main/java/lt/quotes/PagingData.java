@@ -15,10 +15,12 @@ import org.springframework.stereotype.Component;
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PagingData {
 	private int limit;
+	private int page;
 	
 	
 	public PagingData() {
-		this.setLimit(5); // <numatytasis filtras>
+		this.limit = 10;
+		this.page = 0;
 	}
 	
 // getters and setters
@@ -29,6 +31,14 @@ public class PagingData {
 
 	public void setLimit(int limit) {
 		this.limit = limit;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 
