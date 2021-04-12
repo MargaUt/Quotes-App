@@ -13,7 +13,7 @@ class Books extends Component {
         super(props);
         this.state = {
             books: [],
-            search:null, 
+            keyword:"",
             pageSize: 10,
             currentPage: 1,
             totalPages: 0,
@@ -25,14 +25,18 @@ class Books extends Component {
     }
 
   searchSpace=(event)=>{
-    let keyword = event.target.value;
-    this.setState({search:keyword})
+      if(event.key == "Enter") {
+       let keyword = event.target.value;
+      event.preventDefault();
+    this.getBookInfo(1, keyword);
+      }
+ 
   }
 
   handlePageChange = (page) => {
     console.log(page)
     //thi/({ currentPage: page });
-    this.getBookInfo(page);
+    this.getBookInfo(page, this.state.keyword);
   };
 
 
@@ -47,14 +51,7 @@ class Books extends Component {
         }
 
 
-    const books = this.state.books.filter((book)=>{
-      if(this.state.search == null)
-          return book
-      else if(book.title.toLowerCase().includes(this.state.search.toLowerCase()) || book.author.toLowerCase().includes(this.state.search.toLowerCase())){
-          return book
-      }
-    })
-        .map((book, index) => {
+    const books = this.state.books.map((book, index) => {
             return (  
                 <Book
                     id={"" + index}
@@ -77,10 +74,10 @@ class Books extends Component {
 
             <div className="col">
                 <input
-                  type="text" placeholder="Enter item to be searched"
-                  label="Search Country"
+                  type="text" placeholder="Enter book title ot author."
+                  label="Search"
                   icon="search"
-                  onChange={(e)=>this.searchSpace(e)} 
+                  onKeyUp={(e)=>this.searchSpace(e)} 
                 />
               </div>
               <div>            
@@ -123,8 +120,8 @@ class Books extends Component {
 
 
 
-getBookInfo (currentPage) {
-          axios.get(`${url}/api/book?page=${currentPage -1}`)
+getBookInfo (currentPage, keyword) {
+          axios.get(`${url}/api/book?page=${currentPage -1}&title=${keyword}&author=${keyword}`)
           .then((answer) => {
               this.setState({
                 books: answer.data.content,
@@ -140,7 +137,7 @@ getBookInfo (currentPage) {
   
 }
     componentDidMount = () => {
-        this.getBookInfo(this.state.currentPage);
+        this.getBookInfo(this.state.currentPage, this.state.keyword);
     }
 
 handleBookEdit = (e, title, author) => 

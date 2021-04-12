@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lt.quotes.PagingData;
 import lt.quotes.book.service.BookInfo;
+import lt.quotes.book.service.BookInfoWithQuotes;
 import lt.quotes.book.service.BookService;
 import lt.quotes.quo.service.QuoteService;
 
@@ -27,25 +28,33 @@ public class BookController {
 	private final BookService bookService; // pridedame servisa
 	@Autowired
 	private PagingData paging;
-	
+
 	@Autowired
 	public BookController(BookService bookService, QuoteService quoService) {
 		this.bookService = bookService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public Page<BookInfo> getBooks(
-			@RequestParam(defaultValue = "0") int page) {
+//	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.GET)
+//	public Page<BookInfo> getAllSearchBooks(@RequestParam(defaultValue = "0") int page,
+//			 String title,
+//			@PathVariable final String author) {
+//		paging.setPage(page);
+//		return bookService.getAllBooks();
+//	}
+
+	@RequestMapping( method = RequestMethod.GET)
+	public Page<BookInfo> getBooks(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(required = false) String title, 
+			@RequestParam(required = false) String author) {
 		paging.setPage(page);
-		return bookService.getAllBooks();
+		return bookService.getAllSearchBooks(title, author);
 	}
-	
-	
 
 	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.GET)
-	public BookInfo getBook(@PathVariable final String title, @PathVariable final String author) {
+	public BookInfoWithQuotes getBook(@PathVariable final String title, @PathVariable final String author) {
 		return bookService.getBook(title, author);
 	}
+	
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)

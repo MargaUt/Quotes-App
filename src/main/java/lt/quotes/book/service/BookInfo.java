@@ -7,12 +7,12 @@ import lt.quotes.book.data.Book;
 
 public class BookInfo {
 
-	private String title;
-	private String author;
-	private int releasedYear;
-	private int booksPages;
-	private Boolean bookIsFinished;
-	private String picture;
+	public String title;
+	public String author;
+	public int releasedYear;
+	public int booksPages;
+	public Boolean bookIsFinished;
+	public String picture;
 
 	public BookInfo() {
 		super();
@@ -55,7 +55,6 @@ public class BookInfo {
 	 * @return
 	 */
 	public Book toBook() {
-		System.out.println(bookIsFinished);
 		return new Book(title, author, releasedYear, booksPages, bookIsFinished, picture);
 	}
 

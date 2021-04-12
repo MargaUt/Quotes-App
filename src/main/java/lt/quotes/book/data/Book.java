@@ -42,7 +42,6 @@ public class Book {
 	@Lob 
 	private String picture;
 	@OneToMany(mappedBy = "book", cascade = { CascadeType.DETACH, CascadeType.MERGE })
-
 	private List<Quote> quotes;
 
 	public Book() {

@@ -18,7 +18,7 @@ import lt.quotes.book.data.BookRepository;
 public class BookService {
 	@Autowired
 	private BookRepository bookRepo;
-	
+
 	@Autowired
 	private PagingData paging;
 
@@ -27,15 +27,42 @@ public class BookService {
 //		return bookRepo.findAll(PageRequest.of(paging.getPage(), paging.getLimit())).stream().map(BookInfo::from).collect(Collectors.toList());
 //
 //	}
-	
-	
+//
+	@Transactional(readOnly = true)
+	public Page<BookInfo> getAllSearchBooks(String title, String author) {
+		if (title == null) {
+			if (author == null) {
+				return bookRepo.findAll(PageRequest.of(paging.getPage(), paging.getLimit())).map(BookInfo::from);
+
+			} else {
+				return bookRepo.findByAuthorContaining(author, PageRequest.of(paging.getPage(), paging.getLimit()))
+						.map(BookInfo::from);
+			}
+		} else {
+			if (author == null) {
+				return bookRepo.findByTitleContaining(title, PageRequest.of(paging.getPage(), paging.getLimit()))
+						.map(BookInfo::from);
+			} else {
+				return bookRepo.findAllByTitleContainingOrAuthorContaining(title, author,
+						PageRequest.of(paging.getPage(), paging.getLimit())).map(BookInfo::from);
+
+			}
+		}
+
+	}
+
 	@Transactional(readOnly = true)
 	public Page<BookInfo> getAllBooks() {
 		return bookRepo.findAll(PageRequest.of(paging.getPage(), paging.getLimit())).map(BookInfo::from);
 
 	}
-	
-	
+//	
+//	@Transactional(readOnly = true)
+//	public Page<BookInfoWithQuotes> getAllBooksWithQuotes() {
+//		return bookRepo.findAll(PageRequest.of(paging.getPage(), paging.getLimit())).map();
+//
+//	}
+
 
 	@Transactional(readOnly = true)
 	public long countQuotes(String title, String author) {
@@ -50,11 +77,11 @@ public class BookService {
 	}
 
 	@Transactional(readOnly = true)
-	public BookInfo getBook(String title, String author) {
+	public BookInfoWithQuotes getBook(String title, String author) {
 		if (bookRepo.findByTitleAndAuthor(title, author) == null) {
 			throw new IllegalArgumentException("There is no such book.");
 		}
-		return BookInfo.from(bookRepo.findByTitleAndAuthor(title, author));
+		return BookInfoWithQuotes.from(bookRepo.findByTitleAndAuthor(title, author));
 	}
 
 	@Transactional
@@ -90,13 +117,9 @@ public class BookService {
 		return bookRepo.save(bookToUpdate);
 	}
 
-
-
 	public PagingData getPaging() {
 		return paging;
 	}
-
-
 
 	public void setPaging(PagingData paging) {
 		this.paging = paging;
