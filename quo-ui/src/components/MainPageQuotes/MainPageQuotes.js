@@ -31,6 +31,7 @@ class MainPageQuotes extends Component {
                     page={quote.page}
                     text={quote.text}
                     title={quote.title}
+                    handleViewQuote={(e) => this.handleViewQuote(e,  quote.date)}
                 />
             );
         });
@@ -54,6 +55,9 @@ class MainPageQuotes extends Component {
             })
     }
  
+ 
+handleViewQuote = (e, date) => 
+ this.props.history.push(`/view_quote/${date}`);
 }
 
 export default withRouter(MainPageQuotes);

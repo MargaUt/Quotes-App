@@ -14,6 +14,8 @@ import QuotesForm from './components/QuotesForm/QuotesForm.js';
 import AddBook from './components/AddBook/AddBook.js';
 import EditQuote from './components/EditQuote/EditQuote.js';
 import EditBook from './components/EditBook/EditBook.js';
+import BookView from './components/BookView/BookView';
+import QuoteView from './components/QuoteView/QuoteView.js';
 import axios from 'axios';  // NEISTRINTI
 axios.defaults.withCredentials = true;  // NEISTRINTI
 
@@ -83,6 +85,8 @@ ReactDOM.render((
         <Route path="/books" component={Books} />
         <Route path="/add_book" component={AddBook} />
         <Route path="/edit_book/:title/:author" component={EditBook} />
+        <Route path="/view_book/:title/:author" component={BookView} />
+        <Route path="/view_quote/:date" component={QuoteView} />
         <Route path="/demonstracija" component={DemonstruotiNavigacija} />
         <Route path="*" component={NoMatch} />
       </Switch>

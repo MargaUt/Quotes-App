@@ -14,30 +14,13 @@ cleanData = (date) =>{
   render() {
     return (
       <tbody>
-        <tr>
+        <tr onClick={this.props.handleViewBook}>
           <td ><img  className="picture" alt="picture" src={this.props.picture}/></td>
           <td type="text">{this.props.title}</td>
           <td type="text">{this.props.author}</td>
-          <td  type="number">{this.props.releasedYear}</td>
-          <td  type="number">{this.props.booksPages}</td>
-          <td >{this.props.bookIsFinished ? "Finished" : "Not Finished"}</td>  
-          <td>     
-          <button type="button" className="btn btn-success" onClick={this.props.handleEditBook}>
-          Edit Book
-          </button>
+           <td>     
+
           </td>
-          <td>
-            <button type="button" className="btn btn-primary" data-toggle="modal"
-              data-target={"#modal-" + this.cleanData(this.props.author, this.props.title )} >
-            Delete
-            </button>
-            <DeleteBookModal
-              handleDelete={this.props.handleDelete}
-              id={"modal-" + this.cleanData(this.props.author, this.props.title )}>
-            Do you really want to delete {this.props.author} {this.props.title}?
-            </DeleteBookModal>
-          </td>
-          
         </tr>
       </tbody>
     );
@@ -47,13 +30,9 @@ cleanData = (date) =>{
 Book.propTypes = {
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  releasedYear: PropTypes.number.isRequired,
-  booksPages: PropTypes.number.isRequired,
-  bookIsFinished: PropTypes.bool.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  handleEditBook: PropTypes.func.isRequired,
   picture: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  handleViewBook: PropTypes.func.isRequired
 
 };
 
