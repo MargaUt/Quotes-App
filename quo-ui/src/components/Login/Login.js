@@ -35,7 +35,7 @@ const Forma = (
   return (
     <span className="login-container">
       <form onSubmit={onSubmit}>
-        {name === "" && (
+        {name === null && (
           <div className="form-row align-items-center">
             {answer !== "" && (
               <div className="col-auto">
@@ -69,7 +69,7 @@ const Forma = (
             </div>
           </div>
         )}
-        {name !== "" && (
+        {name !== null && (
           <div className="form row align-items-center">
             <div className="col-auto">
               <span className="answer">{name}</span>
@@ -90,7 +90,7 @@ const Forma = (
     </span>
   );
 };
-var a = 0;
+
 class Login extends Component {
    static contextType = UserContext;
   
@@ -103,18 +103,7 @@ class Login extends Component {
       answer: "",
       loggedUserName: this.context.loggedUserName
     };
-    var secondUserName= this.props.secondUserName;
-    var loggedUserName = this.props.loggedUserName;
-    const updateMe = this.props.updateMe;
-    console.log(loggedUserName, secondUserName, updateMe)
-    console.log("statinis:", this.context)
-    console.log("User name", this.state.name)
   }
-
-  updateMe = () => {
-    this.setState({loggedUserName: this.state.loggedUserName});
-    console.log("UpdateMe:", this.state.loggedUserName)
-  };
 
   onEmailChange = (event) => {
     this.setState({ email: event.target.value });
@@ -127,9 +116,6 @@ class Login extends Component {
     this.doLogin();
     event.preventDefault();
   };
-
-
-
 
   doLogin = async () => {
     let userData = new URLSearchParams();
@@ -162,22 +148,10 @@ class Login extends Component {
     try {
       await axios.get(`${url}/logout`);
     } catch (err) {}
-    this.setState({ name: "" });
+    this.setState({ name: null });
     this.context.loggedUserName = this.state.name;
     this.props.history.push('/');
   };
-
-  pakeistKonteksta = (event) => {
-    console.log("keiciam konteksta", this.context);
-    a++;
-    this.context.loggedUserName = "kazkas naujo "+a;
-    var naujas = {
-      loggedUserName: this.context.loggedUserName,
-      secondUserName: this.context.secondUserName
-    }
-    this.context = naujas;
-    event.preventDefault();
-  }
 
   render() {
     console.log("vardas", this.context.loggedUserName);
@@ -193,8 +167,6 @@ class Login extends Component {
         onLogOut={this.onLogOut}
         answer={this.state.answer}
       />
-      <button onClick={this.pakeistKonteksta}>Atnaujinti {this.context.loggedUserName}</button>
-      <button onClick={this.handleUpdateMe}>Atnaujinti is state {this.state.loggedUserName}</button>
       </span>
     );
 
@@ -207,8 +179,7 @@ class Login extends Component {
 
         let role = (await axios.get(`${url}/api/user/${loggedUserName}/`)).data.role;
         this.setState({ name: loggedUserName + " (" + role + ")" });
-        this.context.loggedUserName = this.state.name
-        console.log("Naujas contekstas",  this.context.loggedUserName)
+        this.context.loggedUserName = this.state.name;
       }
     } catch (error) {
       console.log("Klaida: ", error);

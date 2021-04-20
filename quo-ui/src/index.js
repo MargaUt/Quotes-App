@@ -80,8 +80,7 @@ var DemonstruotiNavigacija2 = () => {
 const PrivateRoute = ({component: Component, ...rest}) => {
 let {loggedUserName, secondUserName} = useContext(UserContext);
 let isLogin =  loggedUserName !== null;
-console.log(loggedUserName, secondUserName)
-console.log(isLogin)
+
     return (
         // Show the component only when the user is logged in
         // Otherwise, redirect the user to /signin page
@@ -100,7 +99,7 @@ console.log(isLogin)
 
 ReactDOM.render((
   <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <UserContext.Provider value={{loggedUserName: null, secondUserName: "nekazkas", updateMe: () => {}}}>
+    <UserContext.Provider value={{loggedUserName: null}}>
       <AppContainer>
         <Switch>
           <Route exact path='/' component={App} />

@@ -7,7 +7,7 @@ import UserContext from "../Utilities/UserContext";
 
 
 export default function NavBar(props) {
-    
+
     return (
         <div className="topnav">
             <Link className="a" to='/'>Main</Link>
@@ -17,8 +17,7 @@ export default function NavBar(props) {
             <Link className="a" to='/add_book'>Add book</Link>
             <div className="login-container">
                 <UserContext.Consumer>
-                 {({loggedUserName, secondUserName, updateMe}) =>(<Login loggedUserName={loggedUserName}
-                  secondUserName={secondUserName} updateMe={updateMe}/>)}
+                 {({loggedUserName}) =>(<Login loggedUserName={loggedUserName}/>)}
                 </UserContext.Consumer>   
             </div>
         </div>
