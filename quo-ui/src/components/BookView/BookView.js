@@ -42,7 +42,7 @@ handleBookEdit = (e, title, author) =>
 
 handleDelete = (e, title, author) => {
      console.log("it works with remove!");
-	axios.delete(`${url}/api/book/${title}/${author}/`)
+	axios.delete(`${url}/api/book/${title}/${author}`)
 	.then(res => {
          this.props.history.push('/books');
   })
@@ -121,7 +121,7 @@ handleDelete = (e, title, author) => {
   }
 
   componentDidMount = () => {
-    axios.get(`${url}/api/book/${this.state.currentTitle}/${this.state.currentAuthor}/`)
+    axios.get(`${url}/api/book/${this.state.currentTitle}/${this.state.currentAuthor}`)
       .then((answer) => {
         this.setState({
          author: answer.data.author,

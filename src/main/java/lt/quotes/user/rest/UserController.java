@@ -69,7 +69,7 @@ public class UserController {
 	}
 
 	/* Apdoros užklausas: GET /api/svente */
-	@RequestMapping(path = "/{username}/", method = RequestMethod.GET)
+	@RequestMapping(path = "/{username}", method = RequestMethod.GET)
 	public RestUser getRestUser(@PathVariable final String username) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -101,7 +101,7 @@ public class UserController {
 	}
 
 	/* Apdoros užklausas: DELETE /api/svente/<pavadinimas> */
-	@RequestMapping(path = "/{username}/", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/{username}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 //	@PreAuthorize("hasRole('Administratorius')")
 	public void deleteUser(

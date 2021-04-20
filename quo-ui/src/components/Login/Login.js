@@ -3,11 +3,21 @@ import "./Login.css";
 import axios from "axios";
 import url from "./../../UrlConfig";
 import { withRouter } from 'react-router';
+import {useContext} from 'react';
+import UserContext from "../Utilities/UserContext";
 
 
-// ToDo: pasitikrinti ar tokia role, ir tada daryti this.history.push("/eiles"), kai yra Component reikia 
-// naudoti withRouter ir reikia rasyti, ten kur norime perduoti, o kai yra function galima nauditi kelis:
-// arba withRouter arba useHistory.
+
+
+// ToDo: 1.pasidaryti logino globalu kontexta current useriui, pagal Andriaus skaidres. turi buti null logged user
+//2. contexta isideti contexto provideri ir ten isideti routeri,
+//3. handleLoggedUser irasyti i globalu contexta logged user,
+//4. private route panaudoti  per use context globalu contexta  ir is ten pasiimti logged user,
+//5. vietoj isLogged pasitikrinti, ar logged user nera nulll ir tada nunaviguoti i puslapi arba grizti i main page.
+
+
+//ToDo: padaryti is bookView i single quote page
+
 const Forma = (
   {
     email,
@@ -21,6 +31,7 @@ const Forma = (
   },
   context
 ) => {
+  
   return (
     <span className="login-container">
       <form onSubmit={onSubmit}>
@@ -53,17 +64,18 @@ const Forma = (
             </div>
             <div className="formcol-auto">
               <button type="submit" className="btn btn-success">
-                Prisijungti
+                Prisijungti 
               </button>
             </div>
           </div>
         )}
         {name !== "" && (
-          <div className="form-row align-items-center">
+          <div className="form row align-items-center">
             <div className="col-auto">
               <span className="answer">{name}</span>
             </div>
             <div className="col-auto">
+            
               <button
                 type="button"
                 onClick={onLogOut}
@@ -78,17 +90,31 @@ const Forma = (
     </span>
   );
 };
-
+var a = 0;
 class Login extends Component {
-  constructor(props) {
-    super(props);
+   static contextType = UserContext;
+  
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       email: "",
       pass: "",
       name: "",
-      answer: ""
+      answer: "",
+      loggedUserName: this.context.loggedUserName
     };
+    var secondUserName= this.props.secondUserName;
+    var loggedUserName = this.props.loggedUserName;
+    const updateMe = this.props.updateMe;
+    console.log(loggedUserName, secondUserName, updateMe)
+    console.log("statinis:", this.context)
+    console.log("User name", this.state.name)
   }
+
+  updateMe = () => {
+    this.setState({loggedUserName: this.state.loggedUserName});
+    console.log("UpdateMe:", this.state.loggedUserName)
+  };
 
   onEmailChange = (event) => {
     this.setState({ email: event.target.value });
@@ -137,11 +163,26 @@ class Login extends Component {
       await axios.get(`${url}/logout`);
     } catch (err) {}
     this.setState({ name: "" });
+    this.context.loggedUserName = this.state.name;
     this.props.history.push('/');
   };
 
+  pakeistKonteksta = (event) => {
+    console.log("keiciam konteksta", this.context);
+    a++;
+    this.context.loggedUserName = "kazkas naujo "+a;
+    var naujas = {
+      loggedUserName: this.context.loggedUserName,
+      secondUserName: this.context.secondUserName
+    }
+    this.context = naujas;
+    event.preventDefault();
+  }
+
   render() {
+    console.log("vardas", this.context.loggedUserName);
     return (
+      <span>
       <Forma
         email={this.state.email}
         pass={this.state.pass}
@@ -152,20 +193,28 @@ class Login extends Component {
         onLogOut={this.onLogOut}
         answer={this.state.answer}
       />
+      <button onClick={this.pakeistKonteksta}>Atnaujinti {this.context.loggedUserName}</button>
+      <button onClick={this.handleUpdateMe}>Atnaujinti is state {this.state.loggedUserName}</button>
+      </span>
     );
 
   }
   handleLoggedUser = async () => {
+      
     try {
-      let username = (await axios.get(`${url}/api/user/loggedUsername`)).data;
-      if(username !== "not logged"){ 
-        let role = (await axios.get(`${url}/api/user/${username}/`)).data.role;
-        this.setState({ name: username + " (" + role + ")" });
+      let loggedUserName = (await axios.get(`${url}/api/user/loggedUsername`)).data;
+      if(loggedUserName !== "not logged"){
+
+        let role = (await axios.get(`${url}/api/user/${loggedUserName}/`)).data.role;
+        this.setState({ name: loggedUserName + " (" + role + ")" });
+        this.context.loggedUserName = this.state.name
+        console.log("Naujas contekstas",  this.context.loggedUserName)
       }
     } catch (error) {
       console.log("Klaida: ", error);
     }
   };
+
   componentDidMount() {
     this.handleLoggedUser();
   }

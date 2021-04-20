@@ -76,7 +76,7 @@ handleEdit = (e, date) =>
 
   handleD = (e, date) => {
      console.log("it works with remove!");
-	axios.delete(`${url}/api/quote/${date}/`)
+	axios.delete(`${url}/api/quote/${date}`)
 	.then(res => {
                 axios.get(`${url}/api/quote`)
           .then((answer) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { Switch, Route, withRouter } from 'react-router';
+import { Switch, Route, withRouter,  Redirect} from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { useParams, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar.js';
@@ -16,6 +16,9 @@ import EditQuote from './components/EditQuote/EditQuote.js';
 import EditBook from './components/EditBook/EditBook.js';
 import BookView from './components/BookView/BookView';
 import QuoteView from './components/QuoteView/QuoteView.js';
+import url from "./UrlConfig";
+import UserContext from './components/Utilities/UserContext';
+import {useContext} from 'react';
 import axios from 'axios';  // NEISTRINTI
 axios.defaults.withCredentials = true;  // NEISTRINTI
 
@@ -74,23 +77,46 @@ var DemonstruotiNavigacija2 = () => {
   );
 };
 
+const PrivateRoute = ({component: Component, ...rest}) => {
+let {loggedUserName, secondUserName} = useContext(UserContext);
+let isLogin =  loggedUserName !== null;
+console.log(loggedUserName, secondUserName)
+console.log(isLogin)
+    return (
+        // Show the component only when the user is logged in
+        // Otherwise, redirect the user to /signin page
+        <Route {...rest} render={props => (
+            isLogin ?
+                <Component {...props} />
+            : <Redirect to="/" />
+            
+        )}
+         />
+
+    );
+  
+};
+
+
 ReactDOM.render((
   <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <AppContainer>
-      <Switch>
-        <Route exact path='/' component={App} />
-        <Route path="/quotes" component={Quotes} />
-        <Route path="/quotes_form" component={QuotesForm} />
-        <Route path="/edit/:date" component={EditQuote} />
-        <Route path="/books" component={Books} />
-        <Route path="/add_book" component={AddBook} />
-        <Route path="/edit_book/:title/:author" component={EditBook} />
-        <Route path="/view_book/:title/:author" component={BookView} />
-        <Route path="/view_quote/:date" component={QuoteView} />
-        <Route path="/demonstracija" component={DemonstruotiNavigacija} />
-        <Route path="*" component={NoMatch} />
-      </Switch>
-    </AppContainer>
+    <UserContext.Provider value={{loggedUserName: null, secondUserName: "nekazkas", updateMe: () => {}}}>
+      <AppContainer>
+        <Switch>
+          <Route exact path='/' component={App} />
+          <Route path="/quotes" component={Quotes} />
+          <Route path="/quotes_form" component={QuotesForm} />
+          <Route path="/edit/:date" component={EditQuote} />
+          <Route path="/books" component={Books} />
+          <PrivateRoute path="/add_book" component={AddBook} />
+          <Route path="/edit_book/:title/:author" component={EditBook} />
+          <Route path="/view_book/:title/:author" component={BookView} />
+          <Route path="/view_quote/:date" component={QuoteView} />
+          <Route path="/demonstracija" component={DemonstruotiNavigacija} />
+          <Route path="*" component={NoMatch} />
+        </Switch>
+      </AppContainer>
+    </UserContext.Provider>
   </BrowserRouter>
 ), document.getElementById('root'));
 

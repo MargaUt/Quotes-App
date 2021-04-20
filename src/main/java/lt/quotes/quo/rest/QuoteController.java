@@ -42,12 +42,12 @@ public class QuoteController {
 	}
 
 
-	@RequestMapping(path = "/latest/",method = RequestMethod.GET)
+	@RequestMapping(path = "/latest",method = RequestMethod.GET)
 	public List<QuoteInfo> getLatestQuotes() {
 		return quoService.getLatestQuotes();
 	}
 	
-	@RequestMapping(path = "/{date}/", method = RequestMethod.GET)
+	@RequestMapping(path = "/{date}", method = RequestMethod.GET)
 	public QuoteInfo getQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
 		return quoService.getQuote(date);
 	}
@@ -67,14 +67,14 @@ public class QuoteController {
 		return quoService.getFavouriteQuote();
 	}
 
-	@RequestMapping(path = "/{date}/", method = RequestMethod.PUT)
+	@RequestMapping(path = "/{date}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateQuote(@RequestBody @Valid final QuoteEditInfo quoteEdit,
 			@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
 		quoService.updateQuote(quoteEdit, date);
 	}
 
-	@RequestMapping(path = "/{date}/", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/{date}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
 		quoService.deleteQuote(date);

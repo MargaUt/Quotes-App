@@ -49,7 +49,7 @@ class EditBook extends Component {
       picture: this.state.picture
     }
     try {
-      await axios.put(`${url}/api/book/${this.state.currentTitle}/${this.state.currentAuthor}/`, data)
+      await axios.put(`${url}/api/book/${this.state.currentTitle}/${this.state.currentAuthor}`, data)
       this.props.history.push('/books');
     } catch (e) {
       console.log("klaida: ", e)   
@@ -137,7 +137,7 @@ class EditBook extends Component {
   }
 
   componentDidMount = () => {
-    axios.get(`${url}/api/book/${this.state.currentTitle}/${this.state.currentAuthor}/`)
+    axios.get(`${url}/api/book/${this.state.currentTitle}/${this.state.currentAuthor}`)
       .then((answer) => {
         this.setState({
          author: answer.data.author,

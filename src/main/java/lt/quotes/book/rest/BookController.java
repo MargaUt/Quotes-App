@@ -50,7 +50,7 @@ public class BookController {
 		return bookService.getAllSearchBooks(title, author);
 	}
 
-	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.GET)
+	@RequestMapping(path = "/{title}/{author}", method = RequestMethod.GET)
 	public BookInfoWithQuotes getBook(@PathVariable final String title, @PathVariable final String author) {
 		return bookService.getBook(title, author);
 	}
@@ -68,7 +68,7 @@ public class BookController {
 		return bookService.getReadBook();
 	}
 
-	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.PUT)
+	@RequestMapping(path = "/{title}/{author}", method = RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateBook(@RequestBody @Valid final BookInfo book, @PathVariable final String title,
 			@PathVariable final String author) {
@@ -76,7 +76,7 @@ public class BookController {
 		bookService.updateBook(book, title, author);
 	}
 
-	@RequestMapping(path = "/{title}/{author}/", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/{title}/{author}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteBook(@PathVariable final String title, @PathVariable final String author) {
 		bookService.deleteBook(title, author);

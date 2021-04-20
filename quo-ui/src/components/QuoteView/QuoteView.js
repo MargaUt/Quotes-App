@@ -13,10 +13,10 @@ class QuoteView extends Component {
     super(props);
     this.state = {
         currentDate: this.props.match.params.date,
-        date: "",
-        page: 0,
-        text: "",
-        favourite: true,
+        date: this.props.date,
+        page: this.props.page,
+        text: this.props.text,
+        favourite: this.props.favourite,
         error: ""
         }
   }
@@ -41,7 +41,8 @@ class QuoteView extends Component {
   }
 
   componentDidMount = () => {
-    axios.get(`${url}/api/quote/${this.state.currentDate}/`)
+    if (this.state.currentDate != null) {
+          axios.get(`${url}/api/quote/${this.state.currentDate}`)
       .then((answer) => {
         this.setState({
          date: answer.data.date,
@@ -54,6 +55,9 @@ class QuoteView extends Component {
         console.log("Error: ", error)
       })
     }
+
+  }
+
 }
 
 

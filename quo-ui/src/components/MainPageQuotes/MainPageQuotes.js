@@ -45,7 +45,7 @@ class MainPageQuotes extends Component {
        }
 
     componentDidMount = () => {
-        axios.get(`${url}/api/quote/latest/`)
+        axios.get(`${url}/api/quote/latest`)
           .then((answer) => {
               this.setState({quotes: answer.data})
               console.log(answer);

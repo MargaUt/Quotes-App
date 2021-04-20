@@ -45,7 +45,7 @@ class EditQuote extends Component {
       favourite: this.state.favourite
     }
     try {
-      await axios.put(`${url}/api/quote/${this.state.currentDate}/`, data)
+      await axios.put(`${url}/api/quote/${this.state.currentDate}`, data)
       this.props.history.push('/quotes');
     } catch (e) {
       console.log("klaida: ", e)   
@@ -116,7 +116,7 @@ class EditQuote extends Component {
   }
 
   componentDidMount = () => {
-    axios.get(`${url}/api/quote/${this.state.currentDate}/`)
+    axios.get(`${url}/api/quote/${this.state.currentDate}`)
       .then((answer) => {
         this.setState({
          date: answer.data.date,
