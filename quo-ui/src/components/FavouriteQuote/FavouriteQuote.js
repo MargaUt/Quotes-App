@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import './MainPageQuote.css';
+import './FavouriteQuote.css';
 import {FaQuoteLeft} from 'react-icons/fa';
 import moment from "moment";
 import { withRouter } from 'react-router';
 
 
-class MainPageQuote extends Component {
+class FavouriteQuote extends Component {
 
   
 
@@ -20,7 +20,7 @@ class MainPageQuote extends Component {
       <div className="blockquote-custom-icon bg-info shadow-sm"><FaQuoteLeft /></div>
         <p className="mb-0 mt-2 font-italic">" {this.props.text}"</p>
           <footer className="blockquote-footer pt-4 mt-4 border-top">{this.props.author}
-            <cite title="Source Title"> {this.props.title}</cite>
+            <cite title="Source Title"> {this.props.match.params.title}</cite>
               <p class="card-text"><small class="text-muted">{moment(this.props.date).format('YYYY-MM-DD')}</small></p>
           </footer>
     </blockquote>
@@ -30,7 +30,7 @@ class MainPageQuote extends Component {
   }
 }
 
-MainPageQuote.propTypes = {
+FavouriteQuote.propTypes = {
   text: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
@@ -40,4 +40,4 @@ MainPageQuote.propTypes = {
 };
 
 
-export default withRouter(MainPageQuote);
+export default withRouter(FavouriteQuote);

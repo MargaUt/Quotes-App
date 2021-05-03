@@ -63,13 +63,19 @@ public class QuoteService {
 		return quoRepo.save(quoToUpdate);
 	}
 
+//	@Transactional(readOnly = true)
+//	public QuoteEditInfo getFavouriteQuote() {
+//		if (quoRepo.findFavouriteQuote() == null) {
+//			return null;
+//		}
+//		return QuoteEditInfo.from(quoRepo.findFavouriteQuote());
+//	}
+	
 	@Transactional(readOnly = true)
-	public QuoteEditInfo getFavouriteQuote() {
-		if (quoRepo.findFavouriteQuote() == null) {
-			return null;
-		}
-		return QuoteEditInfo.from(quoRepo.findFavouriteQuote());
+	public List<QuoteEditInfo> getFavouriteQuotes() {
+		return quoRepo.findFavouriteQuote().stream().map(QuoteEditInfo::from).collect(Collectors.toList());
 	}
+	
 
 	public QuoteRepository getQuoteRepo() {
 		return quoRepo;

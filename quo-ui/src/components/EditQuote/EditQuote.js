@@ -20,6 +20,8 @@ class EditQuote extends Component {
   }
   
 
+
+
   handleBookAuthor = (event) => this.setState({ author: event.target.value});
 
   handleDate = (event) => this.setState({ date: event.target.value});

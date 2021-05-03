@@ -62,9 +62,9 @@ public class QuoteController {
 
 	}
 
-	@RequestMapping(path = "/favourite", method = RequestMethod.GET)
-	public QuoteEditInfo getFavouriteQuote() {
-		return quoService.getFavouriteQuote();
+	@RequestMapping(path = "/favourites", method = RequestMethod.GET)
+	public List<QuoteEditInfo> getFavouriteQuotes() {
+		return quoService.getFavouriteQuotes();
 	}
 
 	@RequestMapping(path = "/{date}", method = RequestMethod.PUT)

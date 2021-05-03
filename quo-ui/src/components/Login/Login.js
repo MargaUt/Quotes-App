@@ -3,17 +3,7 @@ import "./Login.css";
 import axios from "axios";
 import url from "./../../UrlConfig";
 import { withRouter } from 'react-router';
-import {useContext} from 'react';
 import UserContext from "../Utilities/UserContext";
-
-
-
-
-// ToDo: 1.pasidaryti logino globalu kontexta current useriui, pagal Andriaus skaidres. turi buti null logged user
-//2. contexta isideti contexto provideri ir ten isideti routeri,
-//3. handleLoggedUser irasyti i globalu contexta logged user,
-//4. private route panaudoti  per use context globalu contexta  ir is ten pasiimti logged user,
-//5. vietoj isLogged pasitikrinti, ar logged user nera nulll ir tada nunaviguoti i puslapi arba grizti i main page.
 
 
 //ToDo: padaryti is bookView i single quote page
@@ -36,7 +26,7 @@ const Forma = (
     <span className="login-container">
       <form onSubmit={onSubmit}>
         {name === null && (
-          <div className="form-row align-items-center">
+          <div className="form row align-items-center">
             {answer !== "" && (
               <div className="col-auto">
                 <div className="alert alert-primary" role="alert">
@@ -93,13 +83,12 @@ const Forma = (
 
 class Login extends Component {
    static contextType = UserContext;
-  
   constructor(props, context) {
     super(props, context);
     this.state = {
       email: "",
       pass: "",
-      name: "",
+      name: null,
       answer: "",
       loggedUserName: this.context.loggedUserName
     };
@@ -150,6 +139,10 @@ class Login extends Component {
     } catch (err) {}
     this.setState({ name: null });
     this.context.loggedUserName = this.state.name;
+    this.context.updateBookButtons(null);
+    this.context.updateNavBar();
+    this.context.updateQuoteButtons(null);
+    this.context.updateQuoteView(null);
     this.props.history.push('/');
   };
 
@@ -172,14 +165,17 @@ class Login extends Component {
 
   }
   handleLoggedUser = async () => {
-      
     try {
       let loggedUserName = (await axios.get(`${url}/api/user/loggedUsername`)).data;
       if(loggedUserName !== "not logged"){
 
         let role = (await axios.get(`${url}/api/user/${loggedUserName}/`)).data.role;
         this.setState({ name: loggedUserName + " (" + role + ")" });
-        this.context.loggedUserName = this.state.name;
+        this.context.loggedUserName = loggedUserName;
+        this.context.updateNavBar();
+        this.context.updateBookButtons(loggedUserName);
+        this.context.updateQuoteButtons(loggedUserName);
+        this.context.updateQuoteView(loggedUserName);
       }
     } catch (error) {
       console.log("Klaida: ", error);

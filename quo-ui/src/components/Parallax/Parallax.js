@@ -39,10 +39,7 @@ function Parallax(props) {
       </section>
 
       <div> 
-<div className="card" style={{
-    width: "18rem",
-    marginTop: "4rem"
-}}>
+
 
 </div>
 
@@ -53,7 +50,7 @@ function Parallax(props) {
       {/* Make space to scroll */}
       <section className="overflow" />
     </div>
-     </div>
+    
   );
 }
 

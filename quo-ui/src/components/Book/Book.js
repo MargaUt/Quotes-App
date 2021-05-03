@@ -19,7 +19,6 @@ cleanData = (date) =>{
           <td type="text">{this.props.title}</td>
           <td type="text">{this.props.author}</td>
            <td>     
-
           </td>
         </tr>
       </tbody>

@@ -10,7 +10,7 @@ import {BsFillHeartFill, BsHeart } from 'react-icons/bs';
 class Quote extends Component {
 
 clean = (date) =>{
-  return date.replace(":", "-");
+  return date.replaceAll(":", "-");
 }
   render() {
     return (
@@ -22,16 +22,12 @@ clean = (date) =>{
           <td>{this.props.text}</td>
           <td>{this.props.title}</td>
           <td >
-          
                   {this.props.favourite === false && (
                 <h3><BsHeart/></h3>
             )}
-           
-
                  {this.props.favourite === true && (
                 <h3><BsFillHeartFill /></h3>
-            )}
-          
+            )}     
           </td>  
           <td>
             <button type="button" className="btn btn-success" onClick={this.props.handleEdit} >
@@ -40,12 +36,12 @@ clean = (date) =>{
           </td>
           <td>
             <button type="button" className="btn btn-primary" data-toggle="modal"
-              data-target={"#modal-" + this.props.id + "-" + this.clean(this.props.date)} >
+              data-target={"#modal-" + this.props.id + "-" + this.clean(this.props.date) + "-" + this.props.page} >
             Delete
             </button>
             <DeleteQuoteModal
               handleD={this.props.handleD}
-              id={"modal-" + this.props.id + "-" + this.props.date + "-" + this.props.page}>
+              id={"modal-" + this.props.id + "-" + this.clean(this.props.date) + "-" + this.props.page}>
            Do you want to delete quote  {this.props.date} date ?
             </DeleteQuoteModal>
           </td>
@@ -61,7 +57,7 @@ Quote.propTypes = {
   page: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  favourite: PropTypes.string.isRequired,
+  favourite: PropTypes.bool.isRequired,
   handleEdit: PropTypes.func.isRequired,
   handleD: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired

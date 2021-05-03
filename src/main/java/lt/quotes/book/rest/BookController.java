@@ -1,5 +1,7 @@
 package lt.quotes.book.rest;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import lt.quotes.PagingData;
 import lt.quotes.book.service.BookInfo;
 import lt.quotes.book.service.BookInfoWithQuotes;
 import lt.quotes.book.service.BookService;
+import lt.quotes.quo.service.QuoteInfo;
 import lt.quotes.quo.service.QuoteService;
 
 @RestController
@@ -41,6 +44,12 @@ public class BookController {
 //		paging.setPage(page);
 //		return bookService.getAllBooks();
 //	}
+	
+
+	@RequestMapping(path = "/allBooks",method = RequestMethod.GET)
+	public List<BookInfo> getAllBooks() {
+		return bookService.getBooks();
+	}
 
 	@RequestMapping( method = RequestMethod.GET)
 	public Page<BookInfo> getBooks(@RequestParam(defaultValue = "0") int page,

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lt.quotes.PagingData;
 import lt.quotes.book.data.Book;
 import lt.quotes.book.data.BookRepository;
+import lt.quotes.quo.service.QuoteInfo;
 
 @Service
 public class BookService {
@@ -51,6 +52,11 @@ public class BookService {
 
 	}
 
+	
+	@Transactional(readOnly = true)
+	public List<BookInfo> getBooks() {
+		return bookRepo.findAll().stream().map(BookInfo::from).collect(Collectors.toList());
+	}
 	@Transactional(readOnly = true)
 	public Page<BookInfo> getAllBooks() {
 		return bookRepo.findAll(PageRequest.of(paging.getPage(), paging.getLimit())).map(BookInfo::from);

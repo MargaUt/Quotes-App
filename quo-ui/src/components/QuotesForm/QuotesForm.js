@@ -3,6 +3,12 @@ import axios from "axios";
 import url from "./../../UrlConfig";
 import { withRouter } from 'react-router';
 import './QuotesForm.css';
+import Select from 'react-select';
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import {Link} from 'react-router-dom';
+
+import "react-datepicker/dist/react-datepicker.css";
 
 
 class QuotesForm extends Component {
@@ -11,17 +17,28 @@ class QuotesForm extends Component {
     super(props);
     this.state = { 
         author: "",
-        date: "",
+        startDate: new Date(),
         page: 0,
         text: "",
         title: "",
-        error: ""
+        error: "", 
+        favourite: true,
+        books: [],
+        titles: [],
+        selectedOption: "",
+        clearable: true
         }
   }
 
-  handleBookAuthor = (event) => this.setState({ author: event.target.value});
+  handleBookAuthor = (bookTitleHash) => { 
+  console.log("bookTitleHash: ", bookTitleHash)
+  var bookArray = this.state.books.filter(book => (book.author + "-" + book.title).hashCode() === bookTitleHash.value);
+  console.log("bookArray: ", bookArray);
+  bookArray.map(book => this.setState({ author: book.author, title: book.title }));
+  }
 
-  handleDate = (event) => this.setState({ date: event.target.value});
+
+  onChangeDate(date) {this.setState({ startDate: date })}
   
   handlePage = (event) => this.setState({ page: event.target.value});
 
@@ -29,21 +46,25 @@ class QuotesForm extends Component {
 
   handleBookTitle = (event) => this.setState({ title: event.target.value});
 
-  
+
+  renderList(){
+ return (this.state.books.map(book =>({label: book.author + "-" + book.title, value: (book.author + "-" + book.title).hashCode()})))
+}
 
 
-  // handleActive = (event) =>{
-  //  console.log("value: ", event.target.checked)
-  //  this.setState({ active: event.target.checked})
-  // } 
+  handleFavourite = (event) =>{
+   console.log("value: ", event.target.checked)
+   this.setState({ favourite: event.target.checked})
+  } 
 
   doSubmit = async () => {
     const data ={
       author: this.state.author,
-      date: this.state.date,
+      date: this.state.startDate,
       page: this.state.page,
       text: this.state.text,
       title: this.state.title,
+      favourite: this.state.favourite
       
     }
     try {
@@ -55,7 +76,6 @@ class QuotesForm extends Component {
       }
       
     }
-//  }
 
 
   handleSubmit = (event) => {
@@ -64,63 +84,100 @@ class QuotesForm extends Component {
   }
 
   render() {
+     
     return (
+  <form className="form-horizontal" onSubmit={this.handleSubmit}>   
 
-         <form onSubmit={this.handleSubmit}>
-  <div className ="align-items-center">
+     <div className="form-group">
+        <label className="control-label col-sm-2" >
+        Author {this.state.author}</label>
+        <div className="form-group">
+           <label className="col-sm-2"> 
+           Book Title {this.state.title}</label>
+           </div>
+           <div className="row">
+           
+          <div className="col-sm" >
+             <Select
+               name="form-field-author"
+               value={this.selectedOption}
+               onChange={this.handleBookAuthor}
+               clearable={this.state.clearable}
+               valueKey='author'
+               options={this.renderList()}      
+            />
+            </div>
+                <div className="col-sm" >
+            <Link  className="font-weight-bold font-italic h5" to='/add_book'>Add book</Link> 
+        </div>
+        </div>       
+      </div>
 
-     <div className="col-sm-3 my-1">
-      <label className="sr-only" for="inlineFormInputAuthor"> Book Author ({this.state.author}):</label>
-      <input type="text" className="form-control" id="inlineFormInputAuthor" value={this.state.author}
-          onChange={this.handleBookAuthor} placeholder="Book Author"/>
-    </div>
+      <div className="form-group">
+        <label className="control-label col-sm-2" for="disabledSelect1">Date {this.state.date}</label>
+          <div className="col-sm-4">
+         <DatePicker
+            className="form-control" 
+            id="date"
+            name="date"
+            defaultValue=""
+            selected={this.state.startDate}
+            onChange={date => this.onChangeDate(date)} 
+          />
+          </div>
+       </div>
 
-    <div className="col-sm-3 my-1">
-      <label className="sr-only" for="inlineFormInputDate">  Date ({this.state.date}):</label>
-      <input type="text" 
-          value={this.state.date}
-          onChange={this.handleDate} className="form-control" id="inlineFormInputDate" placeholder="Date"/>
-    </div>
-
-    <div className="col-sm-3 my-1">
-      <label className="sr-only" for="inlineFormInputPage"> Quote Page ({this.state.page}):</label>
+      <div class="form-group">
+      <label className="control-label col-sm-4" for="inlineFormInputPage"> Quote Page {this.state.page}</label>
+       <div className="col-sm-4">
       <input type="number" className="form-control" id="inlineFormInputPage" value={this.state.page}
-          onChange={this.handlePage} placeholder="Quote Page"/>
+          onChange={this.handlePage} placeholder="Quote Page" tabindex="3"/>
+      </div>
     </div>
 
-    <div className="col-sm-3 my-1">
-      <label className="sr-only" for="inlineFormInputText">Quote ({this.state.text}):</label>
-      <input type="text" className="form-control" id="inlineFormInputText" value={this.state.text}
-          onChange={this.handleText} placeholder="Quote"/>
+      <div class="form-group">
+      <label className="control-label col-sm-4" for="inlineFormInputText">Quote {this.state.text}</label>
+       <div className="col-sm-4">
+      <textarea type="text" className="form-control" id="inlineFormInputText" value={this.state.text}
+          onChange={this.handleText} placeholder="Quote" tabindex="4"/>
+      </div>
     </div>
 
-    <div className="col-sm-3 my-1">
-      <label className="sr-only" for="inlineFormInputTitle"> Book Title ({this.state.title}):</label>
-      <input type="text" className="form-control" id="inlineFormInputTitle" value={this.state.title}
-          onChange={this.handleBookTitle} placeholder="Book Title"/>
-    </div>
 
- 
-
-    
-    {/* <div className="col-auto my-1">
-      <div className="form-check">
-        <input className="form-check-input" type="checkbox" checked={this.state.active}
-          onChange={this.handleActive} id="autoSizingCheck2"/>
-        <label className="form-check-label" for="autoSizingCheck2">
-         {this.state.active ? "Aktyvi" : "Neaktyvi"} eilė
+     <div class="form-group">
+     <div class="col-sm-offset-2 col-sm-10">
+      <div className="form-check"> 
+        <label>
+         <input className="form-check-input" type="checkbox" checked={this.state.favourite}
+          onChange={this.handleFavourite}/>
+         {this.state.favourite ? " Favourite" : "Not favourite"} quote
         </label>
       </div>
-    </div> */}
+      </div>
+    </div> 
 
-    <div className="col-auto my-1">
-      <button type="submit" className="btn btn-primary">Save</button>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" className="btn btn-default">Save</button>
+      </div>
     </div>
-  </div>
+       
 </form>
-
-
+  
     );
   }
+
+
+   componentDidMount() {
+   axios.get(`${url}/api/book/allBooks`)
+        .then(res => {
+            this.setState({
+                books: res.data
+            })
+            console.log("hello", this.state.books)
+        })
+   }
+
+
 }
  export default withRouter(QuotesForm);

@@ -55,7 +55,8 @@ class Quotes extends Component {
                      </tr>
                     </thead>
                         {quotes}
-                </table>);
+                </table>
+    );
     }
 
     componentDidMount = () => {
@@ -71,21 +72,14 @@ class Quotes extends Component {
 
 
 handleEdit = (e, date) => 
- this.props.history.push(`/edit/${date}`);
+ this.props.history.push(`/edit_quote/${date}`);
 
 
   handleD = (e, date) => {
      console.log("it works with remove!");
 	axios.delete(`${url}/api/quote/${date}`)
 	.then(res => {
-                axios.get(`${url}/api/quote`)
-          .then((answer) => {
-              this.setState({quotes: answer.data})
-            })
-          .catch((err) => {
-              console.log("Error: ", err)
-            })
-    console.log(res.data)
+    this.props.history.push('/quotes');
   })
   .catch(err => {
     console.log(err)

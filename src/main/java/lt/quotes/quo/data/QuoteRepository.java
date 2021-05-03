@@ -10,11 +10,11 @@ public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
 	Quote findByDate(LocalDateTime date);
 
-	default Quote findFavouriteQuote() {
+	default List<Quote> findFavouriteQuote() {
 		return findByFavourite(true);
 	}
 
-	Quote findByFavourite(boolean favourite);
+	List<Quote> findByFavourite(boolean favourite);
 
 //	
 //	@Query(value = "select * from persons limit 50", nativeQuery = true)

@@ -16,11 +16,26 @@ import EditQuote from './components/EditQuote/EditQuote.js';
 import EditBook from './components/EditBook/EditBook.js';
 import BookView from './components/BookView/BookView';
 import QuoteView from './components/QuoteView/QuoteView.js';
+import FavouriteQuotes from './components/FavouriteQuotes/FavouriteQuotes';
 import url from "./UrlConfig";
 import UserContext from './components/Utilities/UserContext';
 import {useContext} from 'react';
 import axios from 'axios';  // NEISTRINTI
 axios.defaults.withCredentials = true;  // NEISTRINTI
+
+
+String.prototype.hashCode = function() {
+    var hash = 0;
+    if (this.length == 0) {
+        return hash;
+    }
+    for (var i = 0; i < this.length; i++) {
+        var char = this.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
 
 var AppContainer = (props) => {
   return (
@@ -99,18 +114,20 @@ let isLogin =  loggedUserName !== null;
 
 ReactDOM.render((
   <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <UserContext.Provider value={{loggedUserName: null}}>
+    <UserContext.Provider value={{loggedUserName: null, updateNavBar: () => {}, updateBookButtons: () => {}, 
+    updateQuoteButtons: () => {}, updateQuoteView: () => {}}}>
       <AppContainer>
         <Switch>
           <Route exact path='/' component={App} />
           <Route path="/quotes" component={Quotes} />
-          <Route path="/quotes_form" component={QuotesForm} />
-          <Route path="/edit/:date" component={EditQuote} />
+          <PrivateRoute path="/quotes_form" component={QuotesForm} />
+          <Route path="/edit_quote/:date" component={EditQuote} />
+          <Route path="/view_quote/:date" component={QuoteView} />
           <Route path="/books" component={Books} />
           <PrivateRoute path="/add_book" component={AddBook} />
           <Route path="/edit_book/:title/:author" component={EditBook} />
           <Route path="/view_book/:title/:author" component={BookView} />
-          <Route path="/view_quote/:date" component={QuoteView} />
+          <PrivateRoute path="/favourite_quotes" component={FavouriteQuotes} />
           <Route path="/demonstracija" component={DemonstruotiNavigacija} />
           <Route path="*" component={NoMatch} />
         </Switch>

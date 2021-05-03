@@ -5,15 +5,11 @@ import './BookView.css';
 import {FaQuoteLeft} from 'react-icons/fa';
 import url from './../../UrlConfig';
 import { withRouter } from 'react-router';
-import QuoteView from '../QuoteView/QuoteView.js';
-import DeleteBookModal from "../DeleteBookModal/DeleteBookModal";
+import MainPageQuote from '../MainPageQuote/MainPageQuote.js';
+import BookButtons from '../BookButtons/BookButtons.js';
 
 
 class BookView extends Component {
-
-
-
-
       constructor(props) {
     super(props);
     this.state = {
@@ -30,52 +26,26 @@ class BookView extends Component {
         }
   }
 
-
-
-cleanData = (date) =>
- date.replaceAll(/[^\w]+/g, '');
-
-  
-handleBookEdit = (e, title, author) => 
- this.props.history.push(`/edit_book/${title}/${author}`);
-
-
-handleDelete = (e, title, author) => {
-     console.log("it works with remove!");
-	axios.delete(`${url}/api/book/${title}/${author}`)
-	.then(res => {
-         this.props.history.push('/books');
-  })
-  .catch((err) => {
-    if(err.response.status  === 400){
-    this.setState({
-          error: "You cannot delete a book with existing quote."
-        });
-    }
-  })
-  
-}
-
   render() {
-
-
              if (this.state.quotes === []) {
             return <div>Please wait... Data is loading...</div>
         }
         var quotes = this.state.quotes.map((quote, index) => {
             return (  
-                <QuoteView
+                  <MainPageQuote
                     id={"" + index}
                     key={quote.quote + quote.date} 
+                    author={quote.author}
                     date={quote.date}
                     page={quote.page}
                     text={quote.text}
-                    favourite={quote.favourite}
+                    title={quote.title}
+                    handleViewQuote={(e) => this.handleViewQuote(e,  quote.date)}
                 />
             );
         });
     return (
-        <div>
+        <div >
                       <div>            
                 {this.state.error !== "" && (
                   <div>
@@ -86,7 +56,7 @@ handleDelete = (e, title, author) => {
                   )}
               </div>
         <div>
-<div className="card" >
+<div className="card border-0 col-md-5" >
   <img className="picture" src={this.state.picture} alt="Card image cap"/>
   <div className="card-body">
     <h5 className="card-title">{this.state.title}</h5>
@@ -97,20 +67,7 @@ handleDelete = (e, title, author) => {
     <li className="list-group-item">Book has {this.state.booksPages} pages.</li>
     <li className="list-group-item">{this.state.bookIsFinished ? "Finished" : "Not Finished"}</li>
   </ul>
-  <div className="card-body">
-           <button type="button" className="btn btn-success" onClick={(e) => this.handleBookEdit(e, this.state.title, this.state.author)}>
-          Edit Book
-          </button>
-            <button type="button" className="btn btn-primary" data-toggle="modal"
-              data-target={"#modal-" + this.cleanData(this.state.author, this.state.title )} >
-            Delete
-            </button>
-            <DeleteBookModal
-              handleDelete={(e) => this.handleDelete(e, this.state.title, this.state.author)}
-              id={"modal-" + this.cleanData(this.state.author, this.state.title )}>
-            Do you really want to delete {this.state.author} {this.state.title}?
-            </DeleteBookModal>
-  </div>
+    <BookButtons/>
 </div>
 <div className="card-deck">
     {quotes}
@@ -138,6 +95,8 @@ handleDelete = (e, title, author) => {
       })
  }   
 
+handleViewQuote = (e, date) => 
+ this.props.history.push(`/view_quote/${date}`);
 
 }
 

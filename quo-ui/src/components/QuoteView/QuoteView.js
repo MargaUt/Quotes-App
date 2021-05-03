@@ -7,11 +7,19 @@ import moment from "moment";
 import {BsFillHeartFill, BsHeart } from 'react-icons/bs';
 import url from "./../../UrlConfig";
 import { withRouter } from 'react-router';
+import QuoteButtons from "../QuoteButtons/QuoteButtons"
+import UserContext from "../Utilities/UserContext";
 
 class QuoteView extends Component {
-    constructor(props) {
-    super(props);
+   static contextType = UserContext;
+    constructor(props, context) {
+    super(props, context);
+
+    this.context.updateQuoteView = (loggedUserName) => 
+    this.setState({loggedUserName: loggedUserName })
+
     this.state = {
+        loggedUserName: this.context.loggedUserName,
         currentDate: this.props.match.params.date,
         date: this.props.date,
         page: this.props.page,
@@ -23,19 +31,23 @@ class QuoteView extends Component {
 
   render() {
     return (
-          <div className="card" >
+      <div className="row justify-content-center col-3">
+          <div className="card border-0" style={{width: "20rem"}}  >
     <blockquote className="blockquote blockquote-custom bg-white p-5 shadow rounded">
         <p className="mb-0 mt-2 font-italic">"{this.state.text}"</p>
          <footer className=" pt-4 mt-4 border-top">
           <p class="card-text"><small class="text-muted">{moment(this.state.date).format('YYYY-MM-DD')}</small></p>
               <p class="card-text"><small class="text-muted">Quote page: {this.state.page}</small></p>
-              <p class="card-text"><small class="text-muted">  {this.state.favourite === false && ( <h3><BsHeart/></h3> )}
+             {this.state.loggedUserName !== null && ( <p class="card-text"><small class="text-muted">  {this.state.favourite === false && ( <h3><BsHeart/></h3> )}
                     {this.state.favourite === true && (
-                <h3><BsFillHeartFill /></h3>
-            )}
+               <BsFillHeartFill />
+            )}  
           </small></p>
+             )}
+          <QuoteButtons/>
           </footer>
     </blockquote>
+  </div>
   </div>
     );
   }
@@ -59,6 +71,12 @@ class QuoteView extends Component {
   }
 
 }
+
+QuoteView.propTypes = {
+  id: PropTypes.string.isRequired,
+  handleDeleteQuote: PropTypes.func.isRequired
+
+};
 
 
 export default withRouter(QuoteView);
