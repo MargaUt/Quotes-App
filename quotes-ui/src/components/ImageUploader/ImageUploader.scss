@@ -1,0 +1,33 @@
+$color-mint: #1abc9c;
+.image-uploader-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .image-section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .upload-button {
+      height: 100%;
+      margin: 0;
+      background-color: $color-mint;
+      border-color: $color-mint;
+    }
+
+    .cropper {
+      width: 30%;
+      align-self: center;
+    }
+
+    .uploader-image-preview {
+      align-self: center;
+      width: 30%;
+    }
+
+    .default-display-image {
+      align-self: center;
+      text-align: center;
+    }
+  }
+}

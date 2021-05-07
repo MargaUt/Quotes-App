@@ -1,0 +1,30 @@
+package lt.quotes.user.service;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserInitializer {
+
+	@Autowired
+	private UserService userService;
+
+	@PostConstruct
+	public void sukurtiUser() {
+
+		if (userService.findByEmail("xxx") == null) {
+			userService.createUser(new ServisoSluoksnioUser("xxx", "xxx", "xxx", "xxx"));
+		}
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+}
