@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = QuotesApp.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AppTests {
+public class AppTestsQuotes {
     @Value("${local.server.port}")
     int port;
 
