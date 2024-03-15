@@ -13,10 +13,9 @@ public class UserInitializer {
 
 	@PostConstruct
 	public void sukurtiUser() {
-
-		if (userService.findByEmail("xxx") == null) {
-			userService.createUser(new ServisoSluoksnioUser("xxx", "xxx", "xxx", "xxx"));
-		}
+	    if (userService.findByEmail("user@email.com") == null) {
+	       userService.createUser(new ServisoSluoksnioUser("useris", "user@email.com", "Administrator", "user"));
+	    }
 	}
 
 	public UserService getUserService() {
