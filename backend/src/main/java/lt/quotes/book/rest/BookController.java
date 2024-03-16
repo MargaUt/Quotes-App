@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.Getter;
+import lombok.Setter;
 import lt.quotes.PagingData;
 import lt.quotes.book.service.BookInfo;
 import lt.quotes.book.service.BookInfoWithQuotes;
@@ -25,9 +27,10 @@ import lt.quotes.quo.service.QuoteService;
 @RequestMapping(value = "/api/book")
 public class BookController {
 
-	@Autowired
-	private PagingData pagingData;
 	private final BookService bookService;
+
+	@Getter
+	@Setter
 	@Autowired
 	private PagingData paging;
 
@@ -59,7 +62,6 @@ public class BookController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createBook(@RequestBody @Valid final BookInfo book) {
 		bookService.createBook(book);
-
 	}
 
 	@RequestMapping(path = "/finished", method = RequestMethod.GET)
@@ -78,23 +80,6 @@ public class BookController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteBook(@PathVariable final String title, @PathVariable final String author) {
 		bookService.deleteBook(title, author);
-
-	}
-
-	public PagingData getPagingData() {
-		return pagingData;
-	}
-
-	public void setPagingData(PagingData pagingData) {
-		this.pagingData = pagingData;
-	}
-
-	public PagingData getPaging() {
-		return paging;
-	}
-
-	public void setPaging(PagingData paging) {
-		this.paging = paging;
 	}
 
 }

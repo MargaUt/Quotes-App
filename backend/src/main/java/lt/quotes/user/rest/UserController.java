@@ -27,6 +27,7 @@ public class UserController {
 
 	@Autowired
 	private PagingData pagingData;
+
 	private final UserService userService;
 
 	@Autowired
@@ -47,9 +48,7 @@ public class UserController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			String currentUserEmail = authentication.getName();
-			var currentUserName = userService.getUsernameFromEmail(currentUserEmail);
-
-			return currentUserName;
+			return userService.getUsernameFromEmail(currentUserEmail);
 		}
 		return "Not logged";
 	}
@@ -58,7 +57,7 @@ public class UserController {
 	public List<RestUser> getUsers() {
 		pagingData.setLimit(10);
 		return userService.getUsers().stream().map(
-				servisoUser -> new RestUser(servisoUser.getUsername(), servisoUser.getEmail(), servisoUser.getRole()))
+				serviceUser -> new RestUser(serviceUser.getUsername(), serviceUser.getEmail(), serviceUser.getRole()))
 				.collect(Collectors.toList());
 
 	}
@@ -75,8 +74,7 @@ public class UserController {
 		}
 
 		var servisoUser = userService.getUser(username);
-		var restUser = new RestUser(servisoUser.getUsername(), servisoUser.getEmail(), servisoUser.getRole());
-		return restUser;
+		return new RestUser(servisoUser.getUsername(), servisoUser.getEmail(), servisoUser.getRole());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -90,7 +88,6 @@ public class UserController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(@PathVariable final String username) {
 		userService.deleteUser(username);
-
 	}
 
 }

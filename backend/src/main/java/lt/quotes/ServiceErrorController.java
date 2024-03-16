@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ControllerAdvice
 public class ServiceErrorController extends ResponseEntityExceptionHandler {
 
@@ -23,7 +26,7 @@ public class ServiceErrorController extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		logger.error("ControllerAdvice error (from ServiceErrorController)");
+		log.error("ControllerAdvice error (from ServiceErrorController)");
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getBindingResult().toString());
 		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
 	}
@@ -31,18 +34,20 @@ public class ServiceErrorController extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ IllegalArgumentException.class, ConstraintViolationException.class,
 			JdbcSQLIntegrityConstraintViolationException.class })
 	protected ResponseEntity<Object> handleIllegalArgument(HttpServletRequest req, Exception ex) {
-		logger.error("ControllerAdvice error (from ServiceErrorController)");
+		log.error("ControllerAdvice error (from ServiceErrorController)");
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getMessage());
-		//TODO fix Type safety: The expression of type ResponseEntity needs unchecked conversion to conform to ResponseEntity<Object>
+		// TODO fix Type safety: The expression of type ResponseEntity needs unchecked
+		// conversion to conform to ResponseEntity<Object>
 		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
-		logger.error("ControllerAdvice error (from ServiceErrorController)");
+		log.error("ControllerAdvice error (from ServiceErrorController)");
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getMessage());
-		//TODO fix Type safety: The expression of type ResponseEntity needs unchecked conversion to conform to ResponseEntity<Object>
+		// TODO fix Type safety: The expression of type ResponseEntity needs unchecked
+		// conversion to conform to ResponseEntity<Object>
 		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 }

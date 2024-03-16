@@ -73,7 +73,6 @@ public class QuoteController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteQuote(@PathVariable @DateTimeFormat(iso = ISO.DATE_TIME) final LocalDateTime date) {
 		quoService.deleteQuote(date);
-
 	}
 
 }

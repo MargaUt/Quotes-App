@@ -13,36 +13,37 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.Getter;
+import lombok.Setter;
 import lt.quotes.role.service.RoleService;
 import lt.quotes.user.data.User;
 import lt.quotes.user.data.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
+
+	@Getter
+	@Setter
 	@Autowired
 	private RoleService roleService;
+
 	@Autowired
 	private UserRepository userRepository;
 
 	@Transactional(readOnly = true)
 	public List<ServiceUser> getUsers() {
-		return userRepository.findAll().stream().map(dbUser -> new ServiceUser(dbUser.getUsername(),
-				dbUser.getEmail(), dbUser.getRole().getName(), "********")).collect(Collectors.toList());
+		return userRepository.findAll().stream().map(dbUser -> new ServiceUser(dbUser.getUsername(), dbUser.getEmail(),
+				"********", dbUser.getRole().getName())).collect(Collectors.toList());
 	}
 
 	@Transactional
 	public void createUser(ServiceUser user) {
-		//TODO fix logics
-		if (user.getRole() == "Administratorius") {
-			throw new IllegalArgumentException("\r\n" + "Creating a user with the Administrator role is forbidden.");
-		}
 		User newUser = new User(user.getUsername(), user.getEmail());
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		newUser.setPassword(encoder.encode(user.getPassword()));
 		var role = roleService.getOneRole(user.getRole());
 		newUser.setRole(role);
-		User saved = userRepository.save(newUser);
-
+		userRepository.save(newUser);
 	}
 
 	@Transactional(readOnly = true)
@@ -51,8 +52,7 @@ public class UserService implements UserDetailsService {
 		if (dbUser == null) {
 			throw new IllegalArgumentException("The user with this name was not found.");
 		}
-		return new ServiceUser(dbUser.getUsername(), dbUser.getEmail(), dbUser.getRole().getName(),
-				"********");
+		return new ServiceUser(dbUser.getUsername(), dbUser.getEmail(), "********", dbUser.getRole().getName());
 	}
 
 	@Transactional
@@ -77,14 +77,6 @@ public class UserService implements UserDetailsService {
 	public String getUsernameFromEmail(String currentUserEmail) {
 		return userRepository.findByEmail(currentUserEmail).getUsername();
 
-	}
-
-	public RoleService getRoleService() {
-		return roleService;
-	}
-
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
 	}
 
 }

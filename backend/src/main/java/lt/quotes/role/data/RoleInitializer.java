@@ -1,31 +1,28 @@
 package lt.quotes.role.data;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.Getter;
+import lombok.Setter;
 import lt.quotes.role.service.RoleService;
 
+@Getter
+@Setter
 @Component
 public class RoleInitializer implements InitializingBean {
+
+	private String ADMIN = "Administrator";
 
 	@Autowired
 	private RoleService roleService;
 
-	@Override
+	@PostConstruct
 	public void afterPropertiesSet() throws Exception {
-		// TODO change name
-		roleService.initRole("Administratorius");
-
-	}
-
-	// TODO change to Lombok
-	public RoleService getRoleService() {
-		return roleService;
-	}
-
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
+		roleService.initRole(ADMIN);
 	}
 
 }
