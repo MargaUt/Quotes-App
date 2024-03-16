@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 import url from "./../../UrlConfig";
-import PropTypes from "prop-types";
 import "./Books.css";
-import Book from "../Book/Book.js";
+import Book from "./Book/Book.js";
 import { withRouter } from "react-router";
-import DeleteBookModal from "../DeleteBookModal/DeleteBookModal.js";
 import Pagination from "react-js-pagination";
-import Spinner from "../Spinner/Spinner.js";
+import Spinner from "../../common/Spinner/Spinner.js";
 
 class Books extends Component {
   constructor(props) {
@@ -28,7 +26,7 @@ class Books extends Component {
   }
 
   searchSpace = (event) => {
-    if (event.key == "Enter") {
+    if (event.key === "Enter") {
       let keyword = event.target.value;
       event.preventDefault();
       this.getBookInfo(1, keyword);
@@ -40,7 +38,6 @@ class Books extends Component {
   };
 
   render() {
-    const unikalus = "tikrai";
     if (this.state.loading === true) {
       return <Spinner />;
     }

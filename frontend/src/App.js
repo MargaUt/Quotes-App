@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { withRouter } from "react-router-dom";
-import Parallax from "./components/Parallax/Parallax.js";
+import Parallax from "./Parallax/Parallax.js";
 
 function App(props) {
   return (
