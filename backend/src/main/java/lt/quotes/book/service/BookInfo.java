@@ -17,7 +17,7 @@ public class BookInfo {
 	public Boolean bookIsFinished;
 	public String picture;
 
-	//TODO research about Lombok annotations for constructors 
+	// TODO research about Lombok annotations for constructors
 	public BookInfo(String title, String author, int releasedYear, int booksPages, String picture,
 			Boolean bookIsFinished) {
 		this.title = title;
@@ -48,7 +48,7 @@ public class BookInfo {
 	public static BookInfo from(Book book) {
 		return new BookInfo(book);
 	}
-	
+
 	/**
 	 * Convert to Book
 	 * 
@@ -57,6 +57,5 @@ public class BookInfo {
 	public Book toBook() {
 		return new Book(title, author, releasedYear, booksPages, bookIsFinished, picture);
 	}
-
 
 }

@@ -62,7 +62,6 @@ public class BookController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createBook(@RequestBody @Valid final BookInfo book) {
 		bookService.createBook(book);
-
 	}
 
 	@RequestMapping(path = "/finished", method = RequestMethod.GET)
@@ -81,7 +80,6 @@ public class BookController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteBook(@PathVariable final String title, @PathVariable final String author) {
 		bookService.deleteBook(title, author);
-
 	}
 
 }

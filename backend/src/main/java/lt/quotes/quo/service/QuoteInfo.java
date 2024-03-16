@@ -2,9 +2,16 @@ package lt.quotes.quo.service;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lt.quotes.book.data.Book;
 import lt.quotes.quo.data.Quote;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class QuoteInfo {
 
 	private String text;
@@ -13,9 +20,6 @@ public class QuoteInfo {
 	private String title;
 	private String author;
 	private Boolean favourite;
-
-	public QuoteInfo() {
-	}
 
 	public QuoteInfo(String text, LocalDateTime date, int page, Boolean favourite) {
 		this.text = text;
@@ -54,57 +58,6 @@ public class QuoteInfo {
 
 	public Quote toQuote(Book book) {
 		return new Quote(text, date, page, favourite, book);
-	}
-
-	// TODO change to Lombok
-	// Getters and setters
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public LocalDateTime getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDateTime date) {
-		this.date = date;
-	}
-
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public Boolean getFavourite() {
-		return favourite;
-	}
-
-	public void setFavourite(Boolean favourite) {
-		this.favourite = favourite;
 	}
 
 }

@@ -13,7 +13,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import lt.quotes.book.data.Book;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Quote", indexes = { @Index(name = "idx_date", columnList = "date", unique = true), })
 public class Quote {
@@ -31,9 +37,6 @@ public class Quote {
 	@JoinColumn(name = "BOOK_ID")
 	private Book book;
 
-	public Quote() {
-	}
-
 	public Quote(String text, LocalDateTime date, int page, Boolean favourite) {
 		this.text = text;
 		this.date = date;
@@ -49,56 +52,6 @@ public class Quote {
 		this.favourite = favourite;
 		this.book = book;
 
-	}
-
-	// TODO change to Lombok
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public LocalDateTime getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDateTime date) {
-		this.date = date;
-	}
-
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public Book getBook() {
-		return book;
-	}
-
-	public void setBook(Book book) {
-		this.book = book;
-	}
-
-	public Boolean getFavourite() {
-		return favourite;
-	}
-
-	public void setFavourite(Boolean favourite) {
-		this.favourite = favourite;
 	}
 
 }

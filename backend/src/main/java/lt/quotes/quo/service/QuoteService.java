@@ -8,14 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.Getter;
+import lombok.Setter;
 import lt.quotes.book.data.BookRepository;
 import lt.quotes.quo.data.Quote;
 import lt.quotes.quo.data.QuoteRepository;
 
+@Getter
+@Setter
 @Service
 public class QuoteService {
 	@Autowired
 	private QuoteRepository quoRepo;
+
 	@Autowired
 	private BookRepository bookRepo;
 
@@ -64,22 +69,6 @@ public class QuoteService {
 	@Transactional(readOnly = true)
 	public List<QuoteEditInfo> getFavouriteQuotes() {
 		return quoRepo.findFavouriteQuote().stream().map(QuoteEditInfo::from).collect(Collectors.toList());
-	}
-
-	public QuoteRepository getQuoteRepo() {
-		return quoRepo;
-	}
-
-	public void setQuoteRepo(QuoteRepository quoRepo) {
-		this.quoRepo = quoRepo;
-	}
-
-	public BookRepository getBookRepo() {
-		return bookRepo;
-	}
-
-	public void setBookRepo(BookRepository bookRepo) {
-		this.bookRepo = bookRepo;
 	}
 
 }

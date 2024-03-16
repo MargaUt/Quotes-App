@@ -5,6 +5,11 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Component
 public class UserInitializer {
 
@@ -14,16 +19,8 @@ public class UserInitializer {
 	@PostConstruct
 	public void initUser() {
 		if (userService.findByEmail("user@email.com") == null) {
-			userService.createUser(new ServiceUser("user", "user@email.com", "Administratorius", "user"));
+			userService.createUser(new ServiceUser("user", "user@email.com", "user", "Administrator"));
 		}
-	}
-
-	public UserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
 	}
 
 }
