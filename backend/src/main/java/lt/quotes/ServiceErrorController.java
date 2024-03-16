@@ -22,32 +22,32 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ServiceErrorController extends ResponseEntityExceptionHandler {
 
+	private static String CONTROLLER_ADVICE = "ControllerAdvice error (from ServiceErrorController)";
+
+	private static String VALIDATION = "Validation Failed";
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		log.error("ControllerAdvice error (from ServiceErrorController)");
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getBindingResult().toString());
+		log.error(CONTROLLER_ADVICE);
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), VALIDATION, ex.getBindingResult().toString());
 		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler({ IllegalArgumentException.class, ConstraintViolationException.class,
 			JdbcSQLIntegrityConstraintViolationException.class })
 	protected ResponseEntity<Object> handleIllegalArgument(HttpServletRequest req, Exception ex) {
-		log.error("ControllerAdvice error (from ServiceErrorController)");
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getMessage());
-		// TODO fix Type safety: The expression of type ResponseEntity needs unchecked
-		// conversion to conform to ResponseEntity<Object>
-		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
+		log.error(CONTROLLER_ADVICE);
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), VALIDATION, ex.getMessage());
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
-		log.error("ControllerAdvice error (from ServiceErrorController)");
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), "Validation Failed", ex.getMessage());
-		// TODO fix Type safety: The expression of type ResponseEntity needs unchecked
-		// conversion to conform to ResponseEntity<Object>
-		return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
+		log.error(CONTROLLER_ADVICE);
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), VALIDATION, ex.getMessage());
+		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 }

@@ -16,6 +16,11 @@ import lt.quotes.book.data.BookRepository;
 
 @Service
 public class BookService {
+
+	private static String BOOK_EXCEPTION = "Didin't find book.";
+
+	private static String DELETE_BOOK = "You cannot delete a book with existing quote.";
+
 	@Autowired
 	private BookRepository bookRepo;
 
@@ -74,7 +79,7 @@ public class BookService {
 	@Transactional(readOnly = true)
 	public BookInfoWithQuotes getBook(String title, String author) {
 		if (bookRepo.findByTitleAndAuthor(title, author) == null) {
-			throw new IllegalArgumentException("There is no such book.");
+			throw new IllegalArgumentException(BOOK_EXCEPTION);
 		}
 		return BookInfoWithQuotes.from(bookRepo.findByTitleAndAuthor(title, author));
 	}
@@ -82,7 +87,7 @@ public class BookService {
 	@Transactional
 	public void deleteBook(String title, String author) {
 		if (countQuotes(title, author) != 0) {
-			throw new IllegalArgumentException("You cannot delete a book with existing quote.");
+			throw new IllegalArgumentException(DELETE_BOOK);
 		}
 
 		bookRepo.deleteByTitleAndAuthor(title, author);
@@ -91,8 +96,7 @@ public class BookService {
 	@Transactional(readOnly = true)
 	public BookInfo getReadBook() {
 		if (bookRepo.findFinishedBook() == null) {
-			// TODO change to error message
-			return null;
+			throw new IllegalArgumentException(BOOK_EXCEPTION);
 		}
 		return BookInfo.from(bookRepo.findFinishedBook());
 	}
@@ -101,7 +105,7 @@ public class BookService {
 	public Book updateBook(BookInfo bookInfo, String title, String author) {
 		Book bookToUpdate = bookRepo.findByTitleAndAuthor(title, author);
 		if (bookToUpdate == null) {
-			throw new IllegalArgumentException("Didin't find book.");
+			throw new IllegalArgumentException(BOOK_EXCEPTION);
 
 		}
 		bookToUpdate.setTitle(bookInfo.getTitle());

@@ -22,6 +22,12 @@ import lt.quotes.user.data.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
 
+	private static String USER_EXCEPTION_MESSAGE = "The user with this name was not found.";
+
+	private static String NOT_FOUND = " not found.";
+
+	private static String ROLE = " ROLE_";
+
 	@Getter
 	@Setter
 	@Autowired
@@ -50,7 +56,7 @@ public class UserService implements UserDetailsService {
 	public ServiceUser getUser(String username) {
 		var dbUser = userRepository.findByUsername(username);
 		if (dbUser == null) {
-			throw new IllegalArgumentException("The user with this name was not found.");
+			throw new IllegalArgumentException(USER_EXCEPTION_MESSAGE);
 		}
 		return new ServiceUser(dbUser.getUsername(), dbUser.getEmail(), "********", dbUser.getRole().getName());
 	}
@@ -64,9 +70,9 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = findByEmail(username);
 		if (user == null)
-			throw new UsernameNotFoundException(username + " not found.");
+			throw new UsernameNotFoundException(username + NOT_FOUND);
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-				AuthorityUtils.createAuthorityList(new String[] { "ROLE_" + user.getRole().getName() }));
+				AuthorityUtils.createAuthorityList(new String[] { ROLE + user.getRole().getName() }));
 	}
 
 	@Transactional(readOnly = true)

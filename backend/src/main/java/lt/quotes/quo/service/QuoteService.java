@@ -18,6 +18,11 @@ import lt.quotes.quo.data.QuoteRepository;
 @Setter
 @Service
 public class QuoteService {
+
+	private static String EXCEPTION_MESSAGE = "There is no quote with this date";
+
+	private static String QUOTE_NOT_FOUND = "Quote not found.";
+
 	@Autowired
 	private QuoteRepository quoRepo;
 
@@ -42,7 +47,7 @@ public class QuoteService {
 	@Transactional(readOnly = true)
 	public QuoteInfo getQuote(LocalDateTime date) {
 		if (quoRepo.findByDate(date) == null) {
-			throw new IllegalArgumentException("There is no quote with this date.");
+			throw new IllegalArgumentException(EXCEPTION_MESSAGE);
 		}
 		return QuoteInfo.from(quoRepo.findByDate(date));
 	}
@@ -56,7 +61,7 @@ public class QuoteService {
 	public Quote updateQuote(QuoteEditInfo quoEditInfo, LocalDateTime date) {
 		Quote quoToUpdate = quoRepo.findByDate(date);
 		if (quoToUpdate == null) {
-			throw new IllegalArgumentException("Didin't find quote");
+			throw new IllegalArgumentException(QUOTE_NOT_FOUND);
 
 		}
 		quoToUpdate.setText(quoEditInfo.getText());

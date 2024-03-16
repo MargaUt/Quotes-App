@@ -12,9 +12,12 @@ import org.springframework.stereotype.Component;
 
 @Component("restAuthenticationEntryPoint")
 public class SecurityEntryPoint implements AuthenticationEntryPoint {
+
+	private static String UNAUTHORIZED = "Unauthorized";
+
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UNAUTHORIZED);
 	}
 }

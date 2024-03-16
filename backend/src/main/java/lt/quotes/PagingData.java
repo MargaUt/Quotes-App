@@ -15,7 +15,7 @@ public class PagingData {
 	private int limit;
 	private int page;
 
-	//TODO Lombok constructor with defined values 
+	// TODO research Lombok constructor with defined values
 	public PagingData() {
 		this.limit = 10;
 		this.page = 0;

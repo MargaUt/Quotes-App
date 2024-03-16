@@ -23,7 +23,11 @@ import lt.quotes.quo.service.QuoteService;
 @RestController
 @RequestMapping(value = "/api/quote")
 public class QuoteController {
+
+	private static String QUOTE_EXCEPTION = "You cannot create a quote without the author and title of the book.";
+
 	private final QuoteService quoService;
+
 	private final BookService bookService;
 
 	@Autowired
@@ -51,7 +55,7 @@ public class QuoteController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createQuote(@RequestBody @Valid QuoteInfo quote) {
 		if (bookService.getBook(quote.getTitle(), quote.getAuthor()) == null) {
-			throw new IllegalArgumentException("You cannot create a quote without the author and title of the book.");
+			throw new IllegalArgumentException(QUOTE_EXCEPTION);
 		}
 		quoService.createQuote(quote);
 

@@ -15,7 +15,7 @@ import lt.quotes.role.service.RoleService;
 @Component
 public class RoleInitializer implements InitializingBean {
 
-	private String ADMIN = "Administrator";
+	public static String ADMIN = "Administrator";
 
 	@Autowired
 	private RoleService roleService;

@@ -16,10 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class ReactErrorController implements ErrorController {
 
-	private static Logger logger = LoggerFactory.getLogger(ReactErrorController.class);
+	private static String ERROR = "Error";
 
 	@Value("classpath:public/index.html")
 	private Resource index;
@@ -30,10 +33,10 @@ public class ReactErrorController implements ErrorController {
 
 		if (status != null) {
 			Integer statusCode = Integer.valueOf(status.toString());
-			logger.error("Error occured " + statusCode);
+			log.error("Error occured " + statusCode);
 			if (statusCode == HttpStatus.UNAUTHORIZED.value() || statusCode == HttpStatus.FORBIDDEN.value()
 					|| statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-				var body = "Error";
+				var body = ERROR;
 				if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
 					body = "The action can be performed when logged in.";
 				}

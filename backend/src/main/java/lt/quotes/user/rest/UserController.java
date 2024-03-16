@@ -25,6 +25,10 @@ import lt.quotes.user.service.UserService;
 @RequestMapping(value = "/api/user")
 public class UserController {
 
+	private static String USER_EXCEPTION = "Accessing other users' data is forbidden.";
+
+	private static String NOT_LOGGED_IN = "Not logged in.";
+
 	@Autowired
 	private PagingData pagingData;
 
@@ -39,7 +43,7 @@ public class UserController {
 		return pagingData;
 	}
 
-	public void setPagingData(PagingData pagingData) {
+	public void NOT_LOGGED_IN(PagingData pagingData) {
 		this.pagingData = pagingData;
 	}
 
@@ -50,7 +54,7 @@ public class UserController {
 			String currentUserEmail = authentication.getName();
 			return userService.getUsernameFromEmail(currentUserEmail);
 		}
-		return "Not logged";
+		return NOT_LOGGED_IN;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -69,7 +73,7 @@ public class UserController {
 			String currentUserEmail = authentication.getName();
 			var currentUserName = userService.getUsernameFromEmail(currentUserEmail);
 			if (!username.equals(currentUserName)) {
-				throw new IllegalArgumentException("Accessing other users' data is forbidden.");
+				throw new IllegalArgumentException(USER_EXCEPTION);
 			}
 		}
 
