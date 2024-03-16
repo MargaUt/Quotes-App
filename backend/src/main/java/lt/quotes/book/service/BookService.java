@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.Getter;
+import lombok.Setter;
 import lt.quotes.PagingData;
 import lt.quotes.book.data.Book;
 import lt.quotes.book.data.BookRepository;
@@ -17,6 +19,8 @@ public class BookService {
 	@Autowired
 	private BookRepository bookRepo;
 
+	@Getter
+	@Setter
 	@Autowired
 	private PagingData paging;
 
@@ -107,14 +111,6 @@ public class BookService {
 		bookToUpdate.setBookIsFinished(bookInfo.getBookIsFinished());
 		bookToUpdate.setPicture(bookInfo.getPicture());
 		return bookRepo.save(bookToUpdate);
-	}
-
-	public PagingData getPaging() {
-		return paging;
-	}
-
-	public void setPaging(PagingData paging) {
-		this.paging = paging;
 	}
 
 }

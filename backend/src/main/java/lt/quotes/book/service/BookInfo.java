@@ -1,7 +1,13 @@
 package lt.quotes.book.service;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lt.quotes.book.data.Book;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class BookInfo {
 
 	public String title;
@@ -11,10 +17,7 @@ public class BookInfo {
 	public Boolean bookIsFinished;
 	public String picture;
 
-	public BookInfo() {
-		super();
-	}
-
+	//TODO research about Lombok annotations for constructors 
 	public BookInfo(String title, String author, int releasedYear, int booksPages, String picture,
 			Boolean bookIsFinished) {
 		this.title = title;
@@ -46,8 +49,6 @@ public class BookInfo {
 		return new BookInfo(book);
 	}
 	
-	// TODO change to Lombok
-
 	/**
 	 * Convert to Book
 	 * 
@@ -57,52 +58,5 @@ public class BookInfo {
 		return new Book(title, author, releasedYear, booksPages, bookIsFinished, picture);
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public int getReleasedYear() {
-		return releasedYear;
-	}
-
-	public void setReleasedYear(int releasedYear) {
-		this.releasedYear = releasedYear;
-	}
-
-	public int getBooksPages() {
-		return booksPages;
-	}
-
-	public void setBooksPages(int booksPages) {
-		this.booksPages = booksPages;
-	}
-
-	public Boolean getBookIsFinished() {
-		return bookIsFinished;
-	}
-
-	public void setBookIsFinished(Boolean bookIsFinished) {
-		this.bookIsFinished = bookIsFinished;
-	}
-
-	public String getPicture() {
-		return picture;
-	}
-
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
 
 }

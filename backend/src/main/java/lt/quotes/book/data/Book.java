@@ -17,8 +17,14 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lt.quotes.quo.data.Quote;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "Book", indexes = { @Index(name = "idx_title_author", columnList = "title, author", unique = true), })
 public class Book {
@@ -30,23 +36,24 @@ public class Book {
 	@NotBlank
 	@Column(unique = true)
 	private String title;
+
 	@NotBlank
 	private String author;
+
 	@Min(1000)
 	@Max(3000)
 	private int releasedYear;
 	private int booksPages;
 	@NotNull
+
 	private Boolean bookIsFinished;
 	@Lob
 	private String picture;
+
 	@OneToMany(mappedBy = "book", cascade = { CascadeType.DETACH, CascadeType.MERGE })
 	private List<Quote> quotes;
 
-	public Book() {
-		super();
-	}
-
+	// TODO research about Lombok annotations for constructors
 	public Book(String title, String author, int releasedYear, int bookPages, Boolean bookIsFinished, String picture) {
 		this.title = title;
 		this.author = author;
@@ -67,68 +74,4 @@ public class Book {
 		this.quotes = quotes;
 	}
 
-	// TODO change to Lombok
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public int getReleasedYear() {
-		return releasedYear;
-	}
-
-	public int getBooksPages() {
-		return booksPages;
-	}
-
-	public Boolean getBookIsFinished() {
-		return bookIsFinished;
-	}
-
-	public List<Quote> getQuotes() {
-		return quotes;
-	}
-
-	public void setQuotes(List<Quote> quotes) {
-		this.quotes = quotes;
-	}
-
-	public void setReleasedYear(int releasedYear) {
-		this.releasedYear = releasedYear;
-	}
-
-	public void setBooksPages(int booksPages) {
-		this.booksPages = booksPages;
-	}
-
-	public void setBookIsFinished(Boolean bookIsFinished) {
-		this.bookIsFinished = bookIsFinished;
-	}
-
-	public String getPicture() {
-		return picture;
-	}
-
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
 }
