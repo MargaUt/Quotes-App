@@ -2,35 +2,28 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { Switch, Route, withRouter, Redirect } from "react-router";
+import { Switch, Route, Redirect } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import {
-  useParams,
-  useLocation,
-  useHistory,
-  useRouteMatch,
-} from "react-router-dom";
-import NavBar from "./components/NavBar/NavBar.js";
+import NavBar from "./common/NavBar/NavBar.js";
 import Quotes from "./components/Quotes/Quotes.js";
 import Books from "./components/Books/Books.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import QuotesForm from "./components/QuotesForm/QuotesForm.js";
-import AddBook from "./components/AddBook/AddBook.js";
-import EditQuote from "./components/EditQuote/EditQuote.js";
-import EditBook from "./components/EditBook/EditBook.js";
-import BookView from "./components/BookView/BookView";
-import QuoteView from "./components/QuoteView/QuoteView.js";
-import FavouriteQuotes from "./components/FavouriteQuotes/FavouriteQuotes";
-import url from "./UrlConfig";
-import UserContext from "./components/Utilities/UserContext";
+import QuotesForm from "./components/Quotes/QuotesForms/QuotesForm.js";
+import AddBook from "./components/Books/BookForms/AddBook.js";
+import EditQuote from "./components/Quotes/QuotesForms/EditQuote.js";
+import EditBook from "./components/Books/BookForms/EditBook.js";
+import BookView from "./components/Books/BookView/BookView";
+import QuoteView from "./components/Quotes/QuoteView/QuoteView.js";
+import FavouriteQuotes from "./components/Quotes/FavouriteQuotes/FavouriteQuotes";
+import UserContext from "./Utilities/UserContext";
 import { useContext } from "react";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
 String.prototype.hashCode = function () {
   var hash = 0;
-  if (this.length == 0) {
+  if (this.length === 0) {
     return hash;
   }
   for (var i = 0; i < this.length; i++) {
@@ -76,32 +69,8 @@ var DemonstruotiNavigacija = (props) => {
   );
 };
 
-var DemonstruotiNavigacija2 = () => {
-  let location = useLocation();
-  let history = useHistory();
-  let goHome = () => history.push("/");
-  let params = useParams();
-  let match = useRouteMatch();
-  let { id } = useParams(); // arba match.params
-  return (
-    <div>
-      At route: {location.pathname} (ID: {id})
-      <button onClick={goHome}>Go Home</button>
-      <pre>
-        {JSON.stringify(history, null, 2)}
-        <br />
-        {JSON.stringify(location, null, 2)}
-        <br />
-        {JSON.stringify(match, null, 2)}
-        <br />
-        {JSON.stringify(params, null, 2)}
-      </pre>
-    </div>
-  );
-};
-
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  let { loggedUserName, secondUserName } = useContext(UserContext);
+  let { loggedUserName } = useContext(UserContext);
   let isLogin = loggedUserName !== null;
 
   return (

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
 import url from "./../../UrlConfig";
-import PropTypes from "prop-types";
 import "./Quotes.css";
-import Quote from "../Quote/Quote.js";
+import Quote from "./Quote/Quote.js";
 import { withRouter } from "react-router";
+import { LOADING_MESSAGE } from "../../Utilities/constants"
 
 class Quotes extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class Quotes extends Component {
 
   render() {
     if (this.state.quotes === []) {
-      return <div>Duomenys dar kraunami... Prašome palaukti...</div>;
+      return <div>{LOADING_MESSAGE}</div>;
     }
     var quotes = this.state.quotes.map((quote, index) => {
       return (
